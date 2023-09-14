@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       backgroundColor: 'orange',
     },
-    titulo:{
+    title:{
         fontSize: 30,
         marginBottom: 50,
     },
-    botaoVoltar:{
+    Button:{
       width: 120,
       height: 60,
         backgroundColor: '#00ffff',
