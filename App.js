@@ -11,6 +11,8 @@ import SellPizza from './screens/SellPizza/SellPizza';
 import ListSells from './screens/ListSells/ListSells';
 import RegisterCategory from './screens/RegisterCategory/RegisterCategory';
 import Cart from './screens/Cart/Cart';
+import Order from './screens/Order/Order';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -19,14 +21,14 @@ const Stack = createStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
-      <Stack.Screen name="ListPizzas" component={ListPizzas} />
-      <Stack.Screen name="RegisterPizza" component={RegisterPizza} />
-      <Stack.Screen name="DisplayPizza" component={DisplayPizza} />
-      <Stack.Screen name="SellPizza" component={SellPizza} />
-      <Stack.Screen name="ListSells" component={ListSells} />
-      <Stack.Screen name="RegisterCategory" component={RegisterCategory} />
-      <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+      <Stack.Screen name="ListPizzas" component={ListPizzas} options={{ headerShown: false }} />
+      <Stack.Screen name="RegisterPizza" component={RegisterPizza} options={{ headerShown: false }} />
+      <Stack.Screen name="DisplayPizza" component={DisplayPizza} options={{ headerShown: false }} />
+      <Stack.Screen name="SellPizza" component={SellPizza} options={{ headerShown: false }} />
+      <Stack.Screen name="ListSells" component={ListSells} options={{ headerShown: false }} />
+      <Stack.Screen name="RegisterCategory" component={RegisterCategory} options={{ headerShown: false }} />
+      <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
@@ -71,8 +73,20 @@ const App = () => {
             headerShown: false  
           }}
         />
-
+        
         <Tab.Screen
+          name="Order"
+          component={Order}
+          options={{
+            tabBarVisible: false,
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="ios-add-circle-outline" color={color} size={size} />
+              ),
+              headerShown: false  
+            }}
+            />
+        
+        {/* <Tab.Screen
           name="Cart"
           component={Cart}
           options={{
@@ -82,11 +96,11 @@ const App = () => {
             ),
             headerShown: false  
           }}
-        />
-        
-        <Tab.Screen
-          name="SellPizza"
-          component={SellPizza}
+        /> */}
+            
+        {/* <Tab.Screen
+          name="ListSells"
+          component={ListSells}
           options={{
             tabBarVisible: false,
             tabBarIcon: ({ color, size }) => (
@@ -94,7 +108,7 @@ const App = () => {
             ),
             headerShown: false  
           }}
-        />
+        /> */}
       </Tab.Navigator>
     </NavigationContainer>
   );
