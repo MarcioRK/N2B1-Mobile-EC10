@@ -8,10 +8,11 @@ export default function Home({navigation}){
             
             <Text style={styles.title}>Prime Pizzas</Text>
 
-            <TouchableOpacity style={styles.Button}
+            {/* <TouchableOpacity style={styles.Button}
                 onPress={()=>navigation.navigate('ListPizzas')}>
                 <Text>Listar pizzas</Text>
             </TouchableOpacity>
+
 
             <TouchableOpacity style={styles.Button}
                 onPress={()=>navigation.navigate('RegisterPizza')}>
@@ -31,7 +32,7 @@ export default function Home({navigation}){
             <TouchableOpacity style={styles.Button}
                 onPress={()=>navigation.navigate('ListSells')}>
                 <Text>Listar vendas</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
         </View>
 
