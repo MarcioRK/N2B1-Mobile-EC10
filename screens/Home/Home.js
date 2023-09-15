@@ -1,6 +1,7 @@
 import {react} from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './styles';
+import ImagePicker from 'react-native-image-picker';
 
 export default function Home({navigation}){
     return (
