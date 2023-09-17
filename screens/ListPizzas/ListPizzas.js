@@ -1,4 +1,4 @@
-import { Text, View, Button, TouchableOpacity } from 'react-native';
+import { Text, View, Alert, Button, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -11,7 +11,9 @@ import {
   deleteContact,
   deleteAllContacts,
 } from '../../services/dbservices';
-import { useState, useEffect, Alert, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Pizza from '../../componentes/Pizza/index';
+
 
 
 export default function ListPizzas({addPizza}) {
@@ -23,7 +25,7 @@ export default function ListPizzas({addPizza}) {
       const pizzasList = await getAllPizzas();
       setPizzas(pizzasList);
     } catch (e) {
-      Alert.alert(e.toString());
+      // Alert.alert(e.toString());
     }
   }
 
@@ -34,6 +36,34 @@ export default function ListPizzas({addPizza}) {
     }, [])
   );
 
+  function removerElemento(identificador) {
+    //Alert.alert('Atenção', 'Confirma a remoção do contato?',
+      // [
+      //   {
+      //     text: 'Sim',
+      //     onPress: () => efetivaRemoverContato(identificador),
+      //   },
+      //   {
+      //     text: 'Não',
+      //     style: 'cancel',
+      //   }
+      // ]);
+
+      efetivaRemoverContato(identificador)
+  }
+
+  async function efetivaRemoverContato(identificador) {
+    try {
+      await deleteContact(identificador);
+      // Keyboard.dismiss();
+      // limparCampos();
+      await loadPizzas();
+      //Alert.alert('Contato apagado com sucesso!!!');
+    } catch (e) {
+      //Alert.alert(e);
+    }
+  }
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>ListPizzas!</Text>
@@ -41,11 +71,12 @@ export default function ListPizzas({addPizza}) {
       {pizzas && pizzas.length > 0 ? (
         <View>
           {pizzas.map((pizza, index) => (
-            <View key={index}>
-              <Text>ID: {pizza.id}</Text>
-              <Text>Name: {pizza.name}</Text>
-              <Text>Description: {pizza.description}</Text>
-            </View>
+            <Pizza 
+            key={index} 
+            pizza={pizza} 
+            removerElemento={removerElemento}
+            // editar={updateContact}
+            />
           ))}
         </View>
       ) : (
