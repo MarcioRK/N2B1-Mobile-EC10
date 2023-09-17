@@ -1,16 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Button, FlatList, TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
 import { getAllPizzas } from '../../services/dbservices';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react'; // Adicione esta importação no topo
 
 export default function SellPizza() {
     const [pizzas, setPizzas] = useState([]);
     const [cart, setCart] = useState([]);
 
-    async function loadPizzas() {
+    useFocusEffect(
+      useCallback(() => {
+          loadPizzas();
+      }, [cart])
+    );
+  
+  
+
+  async function loadPizzas() {
+    try {
         const pizzasList = await getAllPizzas();
         setPizzas(pizzasList);
+
+        // Mova a validação do carrinho para cá
+        const validCartItems = cart.filter(cartItem => {
+            return pizzasList.some(pizza => pizza.id === cartItem.id);
+        });
+
+        if (validCartItems.length !== cart.length) {
+            Alert.alert("Atenção", "Alguns itens no seu carrinho foram removidos do banco de dados e foram excluídos do carrinho.");
+            setCart(validCartItems);
+        }
+    } catch (e) {
+        Alert.alert(e.toString());
     }
+  }
+
 
     function addToCart(pizzaToAdd) {
         const found = cart.find(pizza => pizza.id === pizzaToAdd.id);
