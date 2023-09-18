@@ -3,13 +3,13 @@ import styles from './styles';
 import { useFocusEffect } from '@react-navigation/native';
 
 import {
-  createTable,
+  createPizzasTable,
   createRecord,
   getAllPizzas,
-  addContact,
-  updateContact,
-  deleteContact,
-  deleteAllContacts,
+  addPizza,
+  updatePizza,
+  deletePizza,
+  deleteAllPizzas,
 } from '../../services/dbservices';
 import { useState, useEffect, useCallback } from 'react';
 import Pizza from '../../componentes/Pizza/index';
@@ -61,7 +61,7 @@ export default function ListPizzas({addPizza}) {
 
   async function efetivaRemoverContato(identificador) {
     try {
-      await deleteContact(identificador);
+      await deletePizza(identificador);
       // Keyboard.dismiss();
       // limparCampos();
       await loadPizzas();
@@ -95,11 +95,11 @@ export default function ListPizzas({addPizza}) {
         <Text style={styles.textoBotao}>Recarregar Teste</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.botao} onPress={() => createTable()}>
+      <TouchableOpacity style={styles.botao} onPress={() => createPizzasTable()}>
         <Text style={styles.textoBotao}>createTable Teste</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.botao} onPress={() => deleteAllContacts()}>
+      <TouchableOpacity style={styles.botao} onPress={() => deleteAllPizzas()}>
         <Text style={styles.textoBotao}>deleteAllContacts Teste</Text>
       </TouchableOpacity>
 
