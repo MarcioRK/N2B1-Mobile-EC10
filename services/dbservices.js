@@ -8,6 +8,7 @@ export function getDbConnection() {
 export async function createTable() {
     createOrdersTable();
     createOrderItemsTable();
+    createCategoriesTable();
 }
 
 export async function createPizzasTable() {
@@ -196,7 +197,7 @@ export function getCategorie(id) {
                         result.push(obj);
                     }
                     console.log("LOG Do Resultado da query única:")
-                    console.log(result)
+                    console.log("[getCategorie] result ", result)
                     resolve(result);
                 })
         },

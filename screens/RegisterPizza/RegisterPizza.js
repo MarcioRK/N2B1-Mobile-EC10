@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert, Keyboard } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
 import { createPizzasTable, addPizza, getAllCategories } from '../../services/dbservices';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function RegisterPizza() {
   const [id, setId] = useState(null);
@@ -11,6 +12,12 @@ export default function RegisterPizza() {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
   const [preco, setPreco] = useState('');
   const [categorias, setCategorias] = useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadCategories();
+    }, [])
+  );
 
   async function loadCategories() {
     try {
@@ -22,8 +29,6 @@ export default function RegisterPizza() {
     }
   }
   
-  loadCategories();
-
   function createUniqueId() {
     return Date.now();
   }

@@ -31,7 +31,6 @@ export default function RegisterCategory() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    createCategoriesTable();
     carregar();
     console.log('useEffect');
   }, []);
@@ -44,7 +43,7 @@ export default function RegisterCategory() {
     try {
       const categoriesData = await getAllCategories();
       console.log("Dados Recebidos do Banco de Dados");
-      console.log(categoriesData);
+      console.log("[carregar] categoriesData ", categoriesData);
       setCategories(categoriesData);
     } catch (e) {
       Alert.alert(e.toString());
@@ -69,10 +68,10 @@ export default function RegisterCategory() {
         name: name,
         description: description,
       };
-    console.log(id)
+    console.log("[salvaDados] id ", id)
     let categoriaPesquisada = await getCategorie(id)
     console.log("Cat Pesquisada e retornada:")
-    console.log(categoriaPesquisada)
+    console.log("[salvaDados] categoriaPesquisada ", categoriaPesquisada)
     if (categoriaPesquisada.length === 0)
     {  
       try {
@@ -142,7 +141,7 @@ export default function RegisterCategory() {
       setDescription(categorie.description);
     }
 
-    console.log(categorie);
+    console.log("[editar] categorie ", categorie);
   }
 
   return (

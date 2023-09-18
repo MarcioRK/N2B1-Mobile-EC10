@@ -108,6 +108,18 @@ const App = () => {
           }}
         />
 
+        <Tab.Screen
+          name="RegisterCategory"
+          component={RegisterCategory}
+          options={{
+            tabBarVisible: false,
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="ios-add-circle-outline" color={color} size={size} />
+            ),
+            headerShown: false  
+          }}
+        />
+
       </Tab.Navigator>
     </NavigationContainer>
   );
