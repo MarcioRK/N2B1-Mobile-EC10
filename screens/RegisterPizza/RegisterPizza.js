@@ -1,23 +1,36 @@
-import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, TextInput, TouchableOpacity, Alert, Keyboard } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
-import { createPizzasTable, addPizza } from '../../services/dbservices';
+import { createPizzasTable, addPizza, getAllCategories } from '../../services/dbservices';
 
 export default function RegisterPizza() {
   const [id, setId] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
-  const categorias = ['Categoria 1', 'Categoria 2', 'Categoria 3']; // Substitua com as categorias reais da pizza que você deseja consumir
+  const [preco, setPreco] = useState('');
+  const [categorias, setCategorias] = useState([]);
+
+  async function loadCategories() {
+    try {
+      const categories = await getNamesOfCategories();
+      setCategorias(categories);
+      console.log(categories);
+    } catch (error) {
+      console.error('Erro ao carregar categorias:', error);
+    }
+  }
+  
+  loadCategories();
 
   function createUniqueId() {
     return Date.now();
   }
 
   async function salvaDados() {
-    if (!name || !description || !categoriaSelecionada) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos, incluindo a categoria.');
+    if (!name || !description || !categoriaSelecionada || !preco) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos, incluindo a categoria e o preço.');
       return;
     }
 
@@ -27,27 +40,42 @@ export default function RegisterPizza() {
       id: novoRegistro ? createUniqueId() : id,
       name: name,
       description: description,
-      categoria: categoriaSelecionada,
+      categorie: categoriaSelecionada,
+      price: preco,
     };
-    
+
     try {
-      createPizzasTable()
+      createPizzasTable();
       if (novoRegistro) {
         let resposta = await addPizza(obj);
         if (resposta) {
           Alert.alert('Sucesso', 'Pizza cadastrada com sucesso!');
-          console.log("cadastrou a pizza")
-          console.log(obj)
+          console.log("Cadastrou a pizza");
+          console.log(obj);
           setName('');
           setDescription('');
           setCategoriaSelecionada('');
+          setPreco('');
           setId(null); // Limpar o campo "Id" após o cadastro
+          loadCategories();
+          Keyboard.dismiss();
         } else {
           Alert.alert('Erro', 'Falha ao cadastrar a pizza.');
         }
       }
     } catch (e) {
       Alert.alert('Erro', e.toString());
+    }
+  }
+
+  async function getNamesOfCategories() {
+    try {
+      const categories = await getAllCategories();
+      const names = categories.map(category => category.name);
+      return names;
+    } catch (error) {
+      console.error('Erro ao obter nomes das categorias:', error);
+      return [];
     }
   }
 
@@ -67,6 +95,14 @@ export default function RegisterPizza() {
         onChangeText={(texto) => setDescription(texto)}
         value={description}
         style={styles.input}
+      />
+
+      <TextInput
+        placeholder="Preço"
+        style={styles.input}
+        value={preco}
+        onChangeText={(text) => setPreco(text)}
+        keyboardType="numeric"
       />
 
       <Text style={styles.label}>Categoria:</Text>
