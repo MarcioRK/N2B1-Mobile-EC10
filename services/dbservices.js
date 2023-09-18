@@ -6,9 +6,11 @@ export function getDbConnection() {
 }
 
 export async function createTable() {
-    createOrdersTable();
-    createOrderItemsTable();
-    createCategoriesTable();
+    await createPizzasTable();
+    await createOrdersTable();
+    await createOrderItemsTable();
+    await createCategoriesTable();
+    await insertDefaultRecords();
 }
 
 export async function createPizzasTable() {
@@ -20,7 +22,8 @@ export async function createPizzasTable() {
             name TEXT NOT NULL,
             description TEXT NOT NULL,
             categorie TEXT NOT NULL,
-            price REAL NOT NULL
+            price REAL NOT NULL,
+            imagePath TEXT
         )`;
 
         const dbConnection = getDbConnection();
@@ -83,35 +86,6 @@ export async function createCategoriesTable() {
     });
 }
 
-function insertDefaultRecords(tx) {
-    return new Promise((resolve, reject) => {
-        // Lista de pizzas padrão
-        const defaultPizzas = [
-            { id: '9999999991', name: 'Test Record 1', description: 'fixed description 1', price:10, categorie:"Doce" },
-            { id: '9999999992', name: 'Test Record 2 Teste', description: 'fixed description 2Teste', price:10, categorie:"Salgada" },
-            { id: '9999999993', name: 'Test Record 3', description: 'fixed description 3', price:10, categorie:"Doce"  },
-            { id: '9999999994', name: 'Test Record 4', description: 'fixed description 4', price:10, categorie:"Salgada"  },
-            { id: '9999999995', name: 'Test Record 5', description: 'fixed description 5', price:10, categorie:"Mista"  }
-            // Adicione mais registros padrão conforme necessário
-        ];
-
-        const queries = defaultPizzas.map(pizza => {
-            return new Promise((innerResolve, innerReject) => {
-                tx.executeSql(
-                    'INSERT INTO tbPizzas (id, name, description, price, categorie) VALUES (?, ?, ?, ?, ?)', 
-                    [pizza.id, pizza.name, pizza.description], 
-                    () => innerResolve(),
-                    (_, error) => innerReject(error)
-                );
-            });
-        });
-
-        Promise.all(queries)
-            .then(() => resolve())
-            .catch(error => reject(error));
-    });
-}
-
 export function getAllPizzas() {
 
     return new Promise((resolve, reject) => {
@@ -130,7 +104,8 @@ export function getAllPizzas() {
                             name: records.rows.item(i).name,
                             description: records.rows.item(i).description,
                             price: records.rows.item(i).price,
-                            categorie: records.rows.item(i).categorie
+                            categorie: records.rows.item(i).categorie,
+                            imagePath: records.rows.item(i).imagePath
                         }
                         result.push(obj);
                     }
@@ -325,12 +300,14 @@ export function deleteAllCategories() {
 }
 
 export function addPizza(pizza) {
+    const defaultImage = '../../assets/Default.webp';
+
     return new Promise((resolve, reject) => {
-        let query = 'insert into tbPizzas (id, name ,description, price, categorie) values (?,?,?,?,?)';
+        let query = 'INSERT INTO tbPizzas (id, name, description, price, categorie, imagePath) VALUES (?, ?, ?, ?, ?, ?)';
         let dbCx = getDbConnection();
 
         dbCx.transaction(tx => {
-            tx.executeSql(query, [pizza.id, pizza.name, pizza.description, pizza.categorie, pizza.price],
+            tx.executeSql(query, [pizza.id, pizza.name, pizza.description, pizza.price, pizza.categorie, pizza.imagePath],
                 (tx, resultado) => {
                     resolve(resultado.rowsAffected > 0);
                 })
@@ -578,6 +555,46 @@ export function getOrderDetails(orderId) {
                 }
             );
         });
+    });
+}
+
+function insertDefaultRecords(tx) {
+    console.log('[insertDefaultRecords]');
+    // const defaultImage = '../assets/Default.webp';
+    // const pizzaItaliana = '../assets/ai-pizza-italiana-generativa-em-branco_87742-28304.webp';
+    // const pizzaComFrangoTomateEQueijo = '../assets/deliciosa-pizza-com-frango-tomate-e-queijo-com-sal-e-molho-sobre-um-fundo-escuro-de-concreto_73989-49842.webp';
+    // const pizzaItalianaClassicaComMozzarella = '../assets/deliciosa-pizza-italiana-classica-com-mozzarella_79762-2653.webp';
+    // const pizzaItalianaClassicaComMozzarella2 = '../assets/deliciosa-pizza-italiana-classica-com-mozzarella_79762-2656.webp';
+    // const pizzaItalianaComTomateAzeitonasCalabresaECogumelos = '../assets/deliciosa-pizza-italiana-com-tomate-azeitonas-calabresa-e-cogumelos-vista-superior-isolada-no-fundo-branco-ainda-vida-copiar-espaco_639032-291.webp';
+    // const pizzaItalianaComTomateAzeitonasCalabresaECogumelos2 = '../assets/deliciosa-pizza-italiana-com-tomate-azeitonas-calabresa-e-cogumelos-vista-superior-isolada-no-fundo-branco-ainda-vida-copiar-espaco.jpg';
+
+
+    return new Promise((resolve, reject) => {
+        // Lista de pizzas padrão
+        const defaultPizzas = [
+            { id: '9999999991', name: 'Pizza italiana', description: 'Pizza italiana muito saborosa', price:10, categorie:"Salgada", imagePath: "pizzaItaliana" },
+            { id: '9999999992', name: 'Pizza com Frango Tomate e Queijo', description: 'fixed description 2Teste', price:10, categorie:"Salgada", imagePath: "pizzaComFrangoTomateEQueijo" },
+            { id: '9999999993', name: 'Pizza italiana classica com mozzarella', description: 'fixed description 3', price:10, categorie:"Doce", imagePath: "pizzaItalianaClassicaComMozzarella" },
+            { id: '9999999994', name: 'Pizza italiana classica com mozzarella', description: 'fixed description 4', price:10, categorie:"Salgada", imagePath: "pizzaItalianaClassicaComMozzarella2" },
+            { id: '9999999995', name: 'pizza italiana com tomate azeitonas calabresa e cogumelos', description: 'fixed description 5', price:10, categorie:"Mista", imagePath: "pizzaItalianaComTomateAzeitonasCalabresaECogumelos" },
+            { id: '9999999996', name: 'pizza italiana com tomate azeitonas calabresa e cogumelos', description: 'fixed description 5', price:10, categorie:"Mista", imagePath: "pizzaItalianaComTomateAzeitonasCalabresaECogumelos2" }
+            // Adicione mais registros padrão conforme necessário
+        ];
+
+        const queries = defaultPizzas.map(pizza => {
+            return new Promise((innerResolve, innerReject) => {
+                tx.executeSql(
+                    'INSERT INTO tbPizzas (id, name, description, price, categorie, imagePath) VALUES (?, ?, ?, ?, ?, ?)', 
+                    [pizza.id, pizza.name, pizza.description, pizza.price, pizza.categorie, pizza.imagePath], 
+                    () => innerResolve(),
+                    (_, error) => innerReject(error)
+                );
+            });
+        });
+
+        Promise.all(queries)
+            .then(() => resolve())
+            .catch(error => reject(error));
     });
 }
 

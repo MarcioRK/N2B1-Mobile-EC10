@@ -1,4 +1,4 @@
-import { Text, View, Alert, Button, TouchableOpacity } from 'react-native';
+import { Text, View, Alert, Button, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import styles from './styles';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -72,39 +72,26 @@ export default function ListPizzas({addPizza}) {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>ListPizzas!</Text>
-      
-      {pizzas && pizzas.length > 0 ? (
-        <View>
-          {pizzas.map((pizza, index) => (
-            <Pizza 
-            key={index} 
-            pizza={pizza} 
-            removerElemento={removerElemento}
-            editar={() => editarPizza(pizza)}
+    <ScrollView style={{ flex: 1 }}>
+      <View style={{ alignItems: 'center' }}>
+        <Text>ListPizzas!</Text>
+        
+        <FlatList 
+          data={pizzas}
+          renderItem={({ item }) => (
+            <Pizza
+              pizza={item}
+              removerElemento={removerElemento}
+              editar={() => editarPizza(item)}
             />
-          ))}
-        </View>
-      ) : (
-        <Text>No pizzas available.</Text>
-      )}
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={2} // Configuração para exibir 2 itens por linha
+          contentContainerStyle={{ alignItems: 'center' }} 
+        />
 
-
-      <TouchableOpacity style={styles.botao} onPress={() => loadPizzas()}>
-        <Text style={styles.textoBotao}>Recarregar Teste</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.botao} onPress={() => createPizzasTable()}>
-        <Text style={styles.textoBotao}>createTable Teste</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.botao} onPress={() => deleteAllPizzas()}>
-        <Text style={styles.textoBotao}>deleteAllContacts Teste</Text>
-      </TouchableOpacity>
-
-
-      
-    </View>
+        {/* Restante do seu código ... */}
+      </View>
+    </ScrollView>
   );
 }

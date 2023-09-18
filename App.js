@@ -16,7 +16,7 @@ import Order from './screens/Order/Order';
 
 import {
   createTable,
-  createRecord,
+  insertDefaultRecords,
   getAllPizzas,
   addContact,
   updateContact,
@@ -49,7 +49,6 @@ const App = () => {
     async function setupDatabase() {
       if (!tablesCreated) {
         await createTable();
-        await createRecord();
         setTablesCreated(true);
       }
     }
