@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, FlatList, TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
-import { getAllPizzas } from '../../services/dbservices';
+import { getAllPizzas, saveOrder, createOrdersTable, createOrderItemsTable } from '../../services/dbservices';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react'; // Adicione esta importação no topo
+
 
 export default function SellPizza() {
     const [pizzas, setPizzas] = useState([]);
@@ -14,6 +15,17 @@ export default function SellPizza() {
           loadPizzas();
       }, [cart])
     );
+
+  async function finalizeOrder() {
+    const orderDate = new Date().toISOString();
+    try {
+        await saveOrder(orderDate, cart);
+        Alert.alert('Pedido salvo com sucesso!');
+        setCart([]); // clear the cart after saving
+    } catch (error) {
+        Alert.alert('Erro ao salvar o pedido.', error.toString());
+    }
+  }
   
   
 
@@ -92,6 +104,8 @@ export default function SellPizza() {
                     </View>
                 ))}
             </View>
+
+            <Button title="Finalizar Pedido" onPress={finalizeOrder} />
         </View>
     );
 }

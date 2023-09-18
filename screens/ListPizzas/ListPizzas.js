@@ -13,12 +13,19 @@ import {
 } from '../../services/dbservices';
 import { useState, useEffect, useCallback } from 'react';
 import Pizza from '../../componentes/Pizza/index';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 export default function ListPizzas({addPizza}) {
 
+  const navigation = useNavigation();
+
   const [pizzas, setPizzas] = useState([]);
+
+  function editarPizza(pizza) {
+    navigation.navigate('DisplayPizza', { pizza });
+  }
 
   async function loadPizzas() {
     try {
@@ -75,7 +82,7 @@ export default function ListPizzas({addPizza}) {
             key={index} 
             pizza={pizza} 
             removerElemento={removerElemento}
-            // editar={updateContact}
+            editar={() => editarPizza(pizza)}
             />
           ))}
         </View>
