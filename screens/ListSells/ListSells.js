@@ -1,23 +1,32 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, FlatList, Button, Alert, TouchableOpacity } from 'react-native';
 import styles from './styles';
-import { getOrders, deleteOrder, saveOrder, deleteAllOrders, getOrderById } from '../../services/dbservices';
+import { getOrders, deleteOrder, saveOrder, deleteAllOrders, getOrderById, getOrderDetails } from '../../services/dbservices';
 import { useFocusEffect } from '@react-navigation/native';
 
 
 
 export default function ListSells({ navigation }) {
   const [orders, setOrders] = useState([]);
+  const [orderDetails, setOrderDetails] = useState({});
+
 
   async function loadOrders() {
     try {
-      const fetchedOrders = await getOrders();
-      console.log("[loadOrders] fetchedOrders ", fetchedOrders);
-      setOrders(fetchedOrders);
+        const fetchedOrders = await getOrders();
+        console.log("[loadOrders] fetchedOrders ", fetchedOrders);
+        
+        let details = {};
+        for (let order of fetchedOrders) {
+            details[order.orderId] = await getOrderDetails(order.orderId);
+        }
+        setOrderDetails(details);
+
+        setOrders(fetchedOrders);
     } catch (error) {
-      Alert.alert("Erro ao recuperar pedidos", error.toString());
+        Alert.alert("Erro ao recuperar pedidos", error.toString());
     }
-  }
+}
 
   async function handleDeleteOrder(orderId) {
     console.log("[handleDeleteOrder] orderId ", orderId);
@@ -94,6 +103,17 @@ export default function ListSells({ navigation }) {
     }
 }
 
+  async function loadOrderDetails(orderId) {
+    try {
+        const orderDetails = await getOrderDetails(orderId);
+        console.log("[loadOrderDetails] orderDetails for orderId " + orderId, orderDetails);
+        return orderDetails;
+    } catch (error) {
+        Alert.alert("Erro ao recuperar detalhes do pedido", error.toString());
+    }
+  }
+
+
   
 
 
@@ -109,7 +129,7 @@ export default function ListSells({ navigation }) {
       <Button title="Deletar Pedidos" onPress={deleteAllOrders} />
       <Button title="GET CHECK ORDERS" onPress={checkGetOrder} />
       
-      {/* Listando os IDs dos pedidos */}
+      {/* Listando os IDs dos pedidos e seus itens */}
       {orders.length > 0 ? (
           <FlatList 
               data={orders}
@@ -117,6 +137,13 @@ export default function ListSells({ navigation }) {
               renderItem={({ item }) => (
                   <View style={{ marginBottom: 10 }}>
                       <Text>ID do Pedido: {item.orderId}</Text>
+                      {
+                          orderDetails[item.orderId] && orderDetails[item.orderId].map(detail => (
+                              <Text key={detail.pizzaId}>
+                                  {detail.name} (Quantidade: {detail.quantity})
+                              </Text>
+                          ))
+                      }
                   </View>
               )}
           />
