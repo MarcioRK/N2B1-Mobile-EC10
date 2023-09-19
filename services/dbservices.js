@@ -535,11 +535,13 @@ export function getOrderDetails(orderId) {
         let dbConnection = getDbConnection();
 
         let query = `
-            SELECT o.orderId, o.orderDate, oi.pizzaId, p.name, p.description, oi.quantity 
+            SELECT o.orderId, o.orderDate, oi.pizzaId, p.name, p.description, p.price, oi.quantity 
             FROM tbOrders o 
             INNER JOIN tbOrderItems oi ON o.orderId = oi.orderId 
             INNER JOIN tbPizzas p ON oi.pizzaId = p.id 
             WHERE o.orderId = ?`;
+
+
 
         dbConnection.transaction(tx => {
             tx.executeSql(query, [orderId],

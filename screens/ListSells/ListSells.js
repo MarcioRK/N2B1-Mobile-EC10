@@ -9,24 +9,43 @@ import { useFocusEffect } from '@react-navigation/native';
 export default function ListSells({ navigation }) {
   const [orders, setOrders] = useState([]);
   const [orderDetails, setOrderDetails] = useState({});
+  const [grandTotal, setGrandTotal] = useState(0);
+
 
 
   async function loadOrders() {
     try {
-        const fetchedOrders = await getOrders();
-        console.log("[loadOrders] fetchedOrders ", fetchedOrders);
-        
-        let details = {};
-        for (let order of fetchedOrders) {
-            details[order.orderId] = await getOrderDetails(order.orderId);
-        }
-        setOrderDetails(details);
+      const fetchedOrders = await getOrders();
+      console.log("[loadOrders] fetchedOrders ", fetchedOrders);
+      
+      let details = {};
+      let grandTotal = 0; // Para armazenar o valor total de todos os pedidos
+  
+      for (let order of fetchedOrders) {
+        const orderDetail = await getOrderDetails(order.orderId);
 
-        setOrders(fetchedOrders);
+        let orderTotal = orderDetail.reduce((acc, item) => {
+          if (typeof item.price !== 'number' || typeof item.quantity !== 'number') {
+            console.error('Erro no cálculo do total do pedido:', item);
+            return acc;
+          }
+          return acc + (item.price * item.quantity);
+        }, 0);
+        
+
+        grandTotal += orderTotal; // Adicione ao valor total de todos os pedidos
+        details[order.orderId] = { pizzas: orderDetail, total: orderTotal }; // Altere a estrutura aqui
+      }
+      
+      setOrderDetails(details);
+      setGrandTotal(grandTotal); // Atualize o estado com o valor total de todos os pedidos
+  
+      setOrders(fetchedOrders);
     } catch (error) {
-        Alert.alert("Erro ao recuperar pedidos", error.toString());
+      Alert.alert("Erro ao recuperar pedidos", error.toString());
     }
-}
+  }
+  
 
   async function handleDeleteOrder(orderId) {
     console.log("[handleDeleteOrder] orderId ", orderId);
@@ -131,26 +150,31 @@ export default function ListSells({ navigation }) {
       
       {/* Listando os IDs dos pedidos e seus itens */}
       {orders.length > 0 ? (
-          <FlatList 
-              data={orders}
-              keyExtractor={(item, index) => item.orderId.toString()}
-              renderItem={({ item }) => (
-                  <View style={{ marginBottom: 10 }}>
-                      <Text>ID do Pedido: {item.orderId}</Text>
-                      <Text>Data do Pedido: {item.orderDate}</Text>
-                      {
-                          orderDetails[item.orderId] && orderDetails[item.orderId].map(detail => (
-                              <Text key={detail.pizzaId}>
-                                  {detail.name} (Quantidade: {detail.quantity})
-                              </Text>
-                          ))
-                      }
-                  </View>
-              )}
-          />
-      ) : (
-          <Text>Nenhum pedido para listar.</Text>
+  <View>
+    <FlatList 
+      data={orders}
+      keyExtractor={(item, index) => item.orderId.toString()}
+      renderItem={({ item }) => (
+        <View style={{ marginBottom: 10 }}>
+            <Text>ID do Pedido: {item.orderId}</Text>
+            <Text>Data do Pedido: {item.orderDate}</Text>
+            {
+                orderDetails[item.orderId] && orderDetails[item.orderId].pizzas.map(detail => (
+                    <Text key={detail.pizzaId}>
+                        {detail.name} (Quantidade: {detail.quantity})
+                    </Text>
+                ))
+            }
+            <Text>Valor Total do Pedido: R$ {orderDetails[item.orderId]?.total.toFixed(2)}</Text>
+        </View>
       )}
+    />
+    <Text>Valor Total de Todos os Pedidos: R$ {grandTotal.toFixed(2)}</Text>
+  </View>
+    ) : (
+      <Text>Nenhum pedido para listar.</Text>
+    )}
+
   </View>
 
   );
