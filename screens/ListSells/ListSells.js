@@ -137,6 +137,7 @@ export default function ListSells({ navigation }) {
               renderItem={({ item }) => (
                   <View style={{ marginBottom: 10 }}>
                       <Text>ID do Pedido: {item.orderId}</Text>
+                      <Text>Data do Pedido: {item.orderDate}</Text>
                       {
                           orderDetails[item.orderId] && orderDetails[item.orderId].map(detail => (
                               <Text key={detail.pizzaId}>
