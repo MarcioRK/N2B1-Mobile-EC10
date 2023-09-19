@@ -560,24 +560,16 @@ export function getOrderDetails(orderId) {
 
 function insertDefaultRecords(tx) {
     console.log('[insertDefaultRecords]');
-    // const defaultImage = '../assets/Default.webp';
-    // const pizzaItaliana = '../assets/ai-pizza-italiana-generativa-em-branco_87742-28304.webp';
-    // const pizzaComFrangoTomateEQueijo = '../assets/deliciosa-pizza-com-frango-tomate-e-queijo-com-sal-e-molho-sobre-um-fundo-escuro-de-concreto_73989-49842.webp';
-    // const pizzaItalianaClassicaComMozzarella = '../assets/deliciosa-pizza-italiana-classica-com-mozzarella_79762-2653.webp';
-    // const pizzaItalianaClassicaComMozzarella2 = '../assets/deliciosa-pizza-italiana-classica-com-mozzarella_79762-2656.webp';
-    // const pizzaItalianaComTomateAzeitonasCalabresaECogumelos = '../assets/deliciosa-pizza-italiana-com-tomate-azeitonas-calabresa-e-cogumelos-vista-superior-isolada-no-fundo-branco-ainda-vida-copiar-espaco_639032-291.webp';
-    // const pizzaItalianaComTomateAzeitonasCalabresaECogumelos2 = '../assets/deliciosa-pizza-italiana-com-tomate-azeitonas-calabresa-e-cogumelos-vista-superior-isolada-no-fundo-branco-ainda-vida-copiar-espaco.jpg';
-
 
     return new Promise((resolve, reject) => {
         // Lista de pizzas padrão
         const defaultPizzas = [
             { id: '9999999991', name: 'Pizza italiana', description: 'Pizza italiana muito saborosa', price:10, categorie:"Salgada", imagePath: "pizzaItaliana" },
             { id: '9999999992', name: 'Pizza com Frango Tomate e Queijo', description: 'fixed description 2Teste', price:10, categorie:"Salgada", imagePath: "pizzaComFrangoTomateEQueijo" },
-            { id: '9999999993', name: 'Pizza italiana classica com mozzarella', description: 'fixed description 3', price:10, categorie:"Doce", imagePath: "pizzaItalianaClassicaComMozzarella" },
+            { id: '9999999993', name: 'Pizza italiana classica com mozzarella', description: 'fixed description 3', price:10, categorie:"Salgada", imagePath: "pizzaItalianaClassicaComMozzarella" },
             { id: '9999999994', name: 'Pizza italiana classica com mozzarella', description: 'fixed description 4', price:10, categorie:"Salgada", imagePath: "pizzaItalianaClassicaComMozzarella2" },
-            { id: '9999999995', name: 'pizza italiana com tomate azeitonas calabresa e cogumelos', description: 'fixed description 5', price:10, categorie:"Mista", imagePath: "pizzaItalianaComTomateAzeitonasCalabresaECogumelos" },
-            { id: '9999999996', name: 'pizza italiana com tomate azeitonas calabresa e cogumelos', description: 'fixed description 5', price:10, categorie:"Mista", imagePath: "pizzaItalianaComTomateAzeitonasCalabresaECogumelos2" }
+            { id: '9999999995', name: 'pizza italiana com tomate azeitonas calabresa e cogumelos', description: 'fixed description 5', price:10, categorie:"Salgada", imagePath: "pizzaItalianaComTomateAzeitonasCalabresaECogumelos" },
+            { id: '9999999996', name: 'pizza italiana com tomate azeitonas calabresa e cogumelos', description: 'fixed description 5', price:10, categorie:"Salgada", imagePath: "pizzaItalianaComTomateAzeitonasCalabresaECogumelos2" }
             // Adicione mais registros padrão conforme necessário
         ];
 

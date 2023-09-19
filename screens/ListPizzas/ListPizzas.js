@@ -1,6 +1,8 @@
 import { Text, View, Alert, Button, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import styles from './styles';
 import { useFocusEffect } from '@react-navigation/native';
+import { Picker } from '@react-native-picker/picker';
+
 
 import {
   createPizzasTable,
@@ -10,6 +12,7 @@ import {
   updatePizza,
   deletePizza,
   deleteAllPizzas,
+  getAllCategories,
 } from '../../services/dbservices';
 import { useState, useEffect, useCallback } from 'react';
 import Pizza from '../../componentes/Pizza/index';
@@ -22,23 +25,51 @@ export default function ListPizzas({addPizza}) {
   const navigation = useNavigation();
 
   const [pizzas, setPizzas] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  async function loadCategories() {
+    try {
+      const categoriesList = await getAllCategories();
+      console.log("Fetched categories:", categoriesList); // Adicione este log
+      setCategories(categoriesList);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  
+
 
   function editarPizza(pizza) {
     navigation.navigate('DisplayPizza', { pizza });
   }
 
-  async function loadPizzas() {
+  async function loadPizzas(category) {
     try {
-      const pizzasList = await getAllPizzas();
+      let pizzasList = await getAllPizzas();
+  
+      console.log("Todas as pizzas:", pizzasList);
+      console.log("Categoria selecionada:", category);
+  
+      if (category) {
+        pizzasList = pizzasList.filter(pizza => pizza.categorie === category);
+      }
+  
+      console.log("Pizzas filtradas:", pizzasList);
+  
       setPizzas(pizzasList);
     } catch (e) {
-      // Alert.alert(e.toString());
+      console.error(e);
     }
   }
+  
+  
+  
 
   useFocusEffect(
     useCallback(() => {
       loadPizzas();
+      loadCategories();
       return () => {}; // função de retorno opcional para limpar efeitos colaterais.
     }, [])
   );
@@ -75,6 +106,24 @@ export default function ListPizzas({addPizza}) {
     <ScrollView style={{ flex: 1 }}>
       <View style={{ alignItems: 'center' }}>
         <Text>ListPizzas!</Text>
+
+        <Picker
+          selectedValue={selectedCategory}
+          style={{ height: 50, width: 150 }}
+          onValueChange={(itemValue, itemIndex) => {
+            setSelectedCategory(itemValue);
+            loadPizzas(itemValue);  // Passando o itemValue aqui
+          }}
+        >
+
+          <Picker.Item label="All" value={null} />
+          {categories.map(cat => (
+            <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
+          ))}
+        </Picker>
+
+
+
         
         <FlatList 
           data={pizzas}
