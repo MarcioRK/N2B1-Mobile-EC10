@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     },
     botaoVoltar: {
       width: 200, // Defina uma largura fixa, como 200, ou ajuste conforme desejado
-      height: 60,
+      height: 55,
       backgroundColor: '#FF6347', 
       borderRadius: 10,
       justifyContent: 'center',
