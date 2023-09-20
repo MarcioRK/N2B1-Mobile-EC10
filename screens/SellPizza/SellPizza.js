@@ -4,11 +4,14 @@ import styles from './styles';
 import { getAllPizzas, saveOrder, createOrdersTable, createOrderItemsTable } from '../../services/dbservices';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react'; // Adicione esta importação no topo
+import PizzaSell from '../../componentes/PizzaSell/index'; // Ajuste o caminho conforme a estrutura do seu projeto.
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default function SellPizza() {
     const [pizzas, setPizzas] = useState([]);
     const [cart, setCart] = useState([]);
+
 
     useFocusEffect(
       useCallback(() => {
@@ -86,14 +89,33 @@ export default function SellPizza() {
             <FlatList 
                 data={pizzas}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                    <View style={{ marginBottom: 10 }}>
-                        <Text>{item.name}</Text>
-                        <Text>{item.description}</Text>
-                        <Button title="Adicionar ao Carrinho" onPress={() => addToCart(item)} />
-                    </View>
-                )}
+                numColumns={2} // Adicione esta linha
+                contentContainerStyle={{ alignItems: 'center' }} // Adicione esta linha
+                renderItem={({ item }) => {
+                    const cartItem = cart.find(pizza => pizza.id === item.id);
+                    const quantity = cartItem ? cartItem.quantity : 0;
+                
+                    return (
+                        <PizzaSell 
+                            pizza={item}
+                            quantity={quantity}
+                            LeftAction={(props) => (
+                                <TouchableOpacity onPress={() => removeFromCart(props.pizza.id)}>
+                                    <Ionicons name="md-remove-circle" size={32} />
+                                </TouchableOpacity>
+                            )}
+                            RightAction={(props) => (
+                                <TouchableOpacity onPress={() => addToCart(props.pizza)}>
+                                    <Ionicons name="md-add-circle" size={32} />
+                                </TouchableOpacity>
+                            )}
+                        />
+                    );
+                }}
+                
             />
+
+
 
             <View style={{ marginTop: 20 }}>
                 <Text>Carrinho:</Text>
