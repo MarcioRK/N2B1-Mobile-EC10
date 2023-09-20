@@ -6,11 +6,14 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react'; // Adicione esta importação no topo
 import PizzaSell from '../../componentes/PizzaSell/index'; // Ajuste o caminho conforme a estrutura do seu projeto.
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function SellPizza() {
     const [pizzas, setPizzas] = useState([]);
     const [cart, setCart] = useState([]);
+
+    const navigation = useNavigation();
 
 
     useFocusEffect(
@@ -117,7 +120,7 @@ export default function SellPizza() {
 
 
 
-            <View style={{ marginTop: 20 }}>
+            {/* <View style={{ marginTop: 20 }}>
                 <Text>Carrinho:</Text>
                 {cart.map((pizza, index) => (
                     <View key={index} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -125,9 +128,12 @@ export default function SellPizza() {
                         <Button title="Remover" onPress={() => removeFromCart(pizza.id)} />
                     </View>
                 ))}
-            </View>
+            </View> */}
 
-            <Button title="Finalizar Pedido" onPress={finalizeOrder} />
+            <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('Cart', { cart: cart, finalizeOrder: finalizeOrder })}>
+                <Text style={styles.textoBotao}>Finalizar Pedido</Text>
+            </TouchableOpacity>
+
         </View>
     );
 }
