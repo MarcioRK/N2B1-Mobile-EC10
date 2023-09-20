@@ -16,7 +16,6 @@ import Order from './screens/Order/Order';
 
 import {
   createTable,
-  insertDefaultRecords,
   getAllPizzas,
   addContact,
   updateContact,

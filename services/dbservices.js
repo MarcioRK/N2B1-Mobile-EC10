@@ -561,7 +561,7 @@ export function getOrderDetails(orderId) {
     });
 }
 
-function insertDefaultRecords(tx) {
+export async function insertDefaultRecords(tx) {
     console.log('[insertDefaultRecords]');
 
     return new Promise((resolve, reject) => {
