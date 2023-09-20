@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     finalizeText: {
         fontSize: 20,
         fontWeight: 'bold',
+        color: 'white'
     },
     pickerContainer: {
       marginVertical: 20,

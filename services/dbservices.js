@@ -6,11 +6,14 @@ export function getDbConnection() {
 }
 
 export async function createTable() {
-    createPizzasTable();
-    createOrdersTable();
-    createOrderItemsTable();
-    createCategoriesTable();
-    insertDefaultRecords();
+    try{
+        createPizzasTable();
+        createOrdersTable();
+        createOrderItemsTable();
+        createCategoriesTable();
+    } catch (error) {
+        console.error("[createTable] Error:", error);
+    }
 }
 
 export async function createPizzasTable() {
@@ -31,19 +34,7 @@ export async function createPizzasTable() {
         dbConnection.transaction(tx => {
             tx.executeSql(query, [], 
                 () => {
-                    // Depois de criar a tabela, verifique se está vazia
-                    // tx.executeSql('SELECT COUNT(*) as count FROM tbPizzas', [], (tx, result) => {
-                    //     const count = result.rows.item(0).count;
-
-                    //     if (count === 0) {
-                    //         // Se a tabela estiver vazia, insira registros padrão
-                    //         insertDefaultRecords(tx)
-                    //             .then(() => resolve(true))
-                    //             .catch(error => reject(error));
-                    //     } else {
-                    //         resolve(true);
-                    //     }
-                    // });
+                    
                 },
                 (_, error) => reject(error)
             );
@@ -67,19 +58,7 @@ export async function createCategoriesTable() {
         dbConnection.transaction(tx => {
             tx.executeSql(query, [], 
                 () => {
-                    // Depois de criar a tabela, verifique se está vazia
-                    // tx.executeSql('SELECT COUNT(*) as count FROM tbCategories', [], (tx, result) => {
-                    //     const count = result.rows.item(0).count;
 
-                    //     if (count === 0) {
-                    //         // Se a tabela estiver vazia, insira registros padrão
-                    //         insertDefaultRecords(tx)
-                    //             .then(() => resolve(true))
-                    //             .catch(error => reject(error));
-                    //     } else {
-                    //         resolve(true);
-                    //     }
-                    // });
                 },
                 (_, error) => reject(error)
             );
@@ -560,57 +539,5 @@ export function getOrderDetails(orderId) {
         });
     });
 }
-
-export async function insertDefaultRecords(tx) {
-    console.log('[insertDefaultRecords]');
-
-    return new Promise((resolve, reject) => {
-        // Lista de pizzas padrão
-        const defaultPizzas = [
-            { id: '9999999991', name: 'Pizza italiana', description: 'Pizza italiana muito saborosa', price:10, categorie:"Salgada", imagePath: "pizzaItaliana" },
-            { id: '9999999992', name: 'Pizza com Frango Tomate e Queijo', description: 'fixed description 2Teste', price:10, categorie:"Salgada", imagePath: "pizzaComFrangoTomateEQueijo" },
-            { id: '9999999993', name: 'Pizza italiana classica com mozzarella', description: 'fixed description 3', price:10, categorie:"Salgada", imagePath: "pizzaItalianaClassicaComMozzarella" },
-            { id: '9999999994', name: 'Pizza italiana classica com mozzarella', description: 'fixed description 4', price:10, categorie:"Salgada", imagePath: "pizzaItalianaClassicaComMozzarella2" },
-            { id: '9999999995', name: 'pizza italiana com tomate azeitonas calabresa e cogumelos', description: 'fixed description 5', price:10, categorie:"Salgada", imagePath: "pizzaItalianaComTomateAzeitonasCalabresaECogumelos" },
-            { id: '9999999996', name: 'pizza italiana com tomate azeitonas calabresa e cogumelos', description: 'fixed description 5', price:10, categorie:"Salgada", imagePath: "pizzaItalianaComTomateAzeitonasCalabresaECogumelos2" }
-            // Adicione mais registros padrão conforme necessário
-        ];
-
-        const defaultCategories = [
-            { id: '9999999991', name: 'Salgada', description: 'Categoria para pizzas salgadas' },
-            // Adicione mais registros padrão de categoria conforme necessário
-        ];
-
-        const categoryQueries = defaultCategories.map(category => {
-            return new Promise((innerResolve, innerReject) => {
-                tx.executeSql(
-                    'INSERT INTO tbCategories (id, name, description) VALUES (?, ?, ?)', 
-                    [category.id, category.name, category.description], 
-                    () => innerResolve(),
-                    (_, error) => innerReject(error)
-                );
-            });
-        });
-
-        const pizzaQueries = defaultPizzas.map(pizza => {
-            return new Promise((innerResolve, innerReject) => {
-                tx.executeSql(
-                    'INSERT INTO tbPizzas (id, name, description, price, categorie, imagePath) VALUES (?, ?, ?, ?, ?, ?)', 
-                    [pizza.id, pizza.name, pizza.description, pizza.price, pizza.categorie, pizza.imagePath], 
-                    () => innerResolve(),
-                    (_, error) => innerReject(error)
-                );
-            });
-        });
-
-        try {
-            Promise.all([...pizzaQueries, ...categoryQueries]);
-            resolve();
-        } catch (error) {
-            reject(error);
-        }
-    });
-}
-
 
 
