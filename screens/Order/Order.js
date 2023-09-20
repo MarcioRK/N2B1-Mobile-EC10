@@ -3,17 +3,17 @@ import styles from './styles';
 
 export default function Order({navigation}) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Order Pizza!</Text>
+    <View style={styles.container}>
+        <Text style={styles.titulo}>Order Pizza!</Text>
 
-        <TouchableOpacity style={styles.Button}
+        <TouchableOpacity style={styles.actionButton}
             onPress={()=>navigation.navigate('SellPizza')}>
-            <Text>SellPizza</Text>
+            <Text style={styles.buttonText}>Sell Pizza</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.Button}
+        <TouchableOpacity style={styles.actionButton}
             onPress={()=>navigation.navigate('ListSells')}>
-            <Text>ListSells</Text>
+            <Text style={styles.buttonText}>List Sells</Text>
         </TouchableOpacity>
     </View>
   );

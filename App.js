@@ -72,7 +72,7 @@ const App = () => {
         />
 
         <Tab.Screen
-          name="ListPizzas"
+          name="List Pizzas"
           component={ListPizzas}
           options={{
             tabBarVisible: false,
@@ -96,7 +96,7 @@ const App = () => {
         />
 
         <Tab.Screen
-          name="RegisterPizza"
+          name="Add Pizza"
           component={RegisterPizza}
           options={{
             tabBarVisible: false,
@@ -108,7 +108,7 @@ const App = () => {
         />
 
         <Tab.Screen
-          name="RegisterCategory"
+          name="Add Category"
           component={RegisterCategory}
           options={{
             tabBarVisible: false,
