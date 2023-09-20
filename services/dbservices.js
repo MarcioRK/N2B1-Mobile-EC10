@@ -395,7 +395,7 @@ export function getOrders() {
         let dbConnection = getDbConnection();
 
         dbConnection.transaction(tx => {
-            let query = 'SELECT * FROM tbOrders';
+            let query = 'SELECT * FROM tbOrders ORDER BY orderDate DESC';
             tx.executeSql(query, [],
                 (_, records) => {
                     let orders = [];

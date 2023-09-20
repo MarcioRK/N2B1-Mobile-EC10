@@ -57,45 +57,40 @@ export default function ListSells({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.titulo}>Histórico de pedidos</Text>
-
-        {orders.length > 0 ? (
-          <View>
-            <FlatList
-              data={orders}
-              keyExtractor={(item, index) => item.orderId.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.pedido}>
-                  <Text style={styles.pedidoTitulo}>ID do Pedido: {item.orderId}</Text>
-                  <Text style={styles.pedidoTexto}>Data do Pedido: {formatDate(item.orderDate)}</Text>
-                  {
-                    orderDetails[item.orderId] && orderDetails[item.orderId].pizzas.map(detail => (
-                      <View key={detail.pizzaId}>
-                        <Text style={styles.pizzaName}>{detail.name}</Text>
-                        <View style={styles.pizzaDetails}>
-                          <Text style={styles.pedidoTexto}>
-                            Quantidade: {detail.quantity}
-                          </Text>
-                          <Text style={styles.pedidoTexto}>
-                            R$ {detail.price.toFixed(2)} cada
-                          </Text>
-                        </View>
-                      </View>
-                    ))
-                  }
-                  <Text style={[styles.pedidoTexto, styles.total]}>
-                    Valor Total do Pedido: R$ {orderDetails[item.orderId]?.total.toFixed(2)}
-                  </Text>
-                </View>
-              )}
-            />
-          </View>
-        ) : (
-          <Text>Nenhum pedido para listar.</Text>
-        )}
-      </ScrollView>
+      <Text style={styles.titulo}>Histórico de pedidos</Text>
+  
+      {orders.length > 0 ? (
+        <FlatList
+          data={orders}
+          keyExtractor={(item, index) => item.orderId.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.pedido}>
+              <Text style={styles.pedidoTitulo}>ID do Pedido: {item.orderId}</Text>
+              <Text style={styles.pedidoTexto}>Data do Pedido: {formatDate(item.orderDate)}</Text>
+              {
+                orderDetails[item.orderId] && orderDetails[item.orderId].pizzas.map(detail => (
+                  <View key={detail.pizzaId}>
+                    <Text style={styles.pizzaName}>{detail.name}</Text>
+                    <View style={styles.pizzaDetails}>
+                      <Text style={styles.pedidoTexto}>
+                        Quantidade: {detail.quantity}
+                      </Text>
+                      <Text style={styles.pedidoTexto}>
+                        R$ {detail.price.toFixed(2)} cada
+                      </Text>
+                    </View>
+                  </View>
+                ))
+              }
+              <Text style={[styles.pedidoTexto, styles.total]}>
+                Valor Total do Pedido: R$ {orderDetails[item.orderId]?.total.toFixed(2)}
+              </Text>
+            </View>
+          )}
+        />
+      ) : (
+        <Text>Nenhum pedido para listar.</Text>
+      )}
     </View>
   );
-
 }
