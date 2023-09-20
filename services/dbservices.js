@@ -6,11 +6,11 @@ export function getDbConnection() {
 }
 
 export async function createTable() {
-    await createPizzasTable();
-    await createOrdersTable();
-    await createOrderItemsTable();
-    await createCategoriesTable();
-    await insertDefaultRecords();
+    createPizzasTable();
+    createOrdersTable();
+    createOrderItemsTable();
+    createCategoriesTable();
+    insertDefaultRecords();
 }
 
 export async function createPizzasTable() {
@@ -32,18 +32,18 @@ export async function createPizzasTable() {
             tx.executeSql(query, [], 
                 () => {
                     // Depois de criar a tabela, verifique se está vazia
-                    tx.executeSql('SELECT COUNT(*) as count FROM tbPizzas', [], (tx, result) => {
-                        const count = result.rows.item(0).count;
+                    // tx.executeSql('SELECT COUNT(*) as count FROM tbPizzas', [], (tx, result) => {
+                    //     const count = result.rows.item(0).count;
 
-                        if (count === 0) {
-                            // Se a tabela estiver vazia, insira registros padrão
-                            insertDefaultRecords(tx)
-                                .then(() => resolve(true))
-                                .catch(error => reject(error));
-                        } else {
-                            resolve(true);
-                        }
-                    });
+                    //     if (count === 0) {
+                    //         // Se a tabela estiver vazia, insira registros padrão
+                    //         insertDefaultRecords(tx)
+                    //             .then(() => resolve(true))
+                    //             .catch(error => reject(error));
+                    //     } else {
+                    //         resolve(true);
+                    //     }
+                    // });
                 },
                 (_, error) => reject(error)
             );
@@ -52,6 +52,7 @@ export async function createPizzasTable() {
 }
 
 export async function createCategoriesTable() {
+    console.log('[createCategoriesTable]');
     return new Promise((resolve, reject) => {
         const query = `
         CREATE TABLE IF NOT EXISTS tbCategories
@@ -67,18 +68,18 @@ export async function createCategoriesTable() {
             tx.executeSql(query, [], 
                 () => {
                     // Depois de criar a tabela, verifique se está vazia
-                    tx.executeSql('SELECT COUNT(*) as count FROM tbCategories', [], (tx, result) => {
-                        const count = result.rows.item(0).count;
+                    // tx.executeSql('SELECT COUNT(*) as count FROM tbCategories', [], (tx, result) => {
+                    //     const count = result.rows.item(0).count;
 
-                        if (count === 0) {
-                            // Se a tabela estiver vazia, insira registros padrão
-                            insertDefaultRecords(tx)
-                                .then(() => resolve(true))
-                                .catch(error => reject(error));
-                        } else {
-                            resolve(true);
-                        }
-                    });
+                    //     if (count === 0) {
+                    //         // Se a tabela estiver vazia, insira registros padrão
+                    //         insertDefaultRecords(tx)
+                    //             .then(() => resolve(true))
+                    //             .catch(error => reject(error));
+                    //     } else {
+                    //         resolve(true);
+                    //     }
+                    // });
                 },
                 (_, error) => reject(error)
             );
