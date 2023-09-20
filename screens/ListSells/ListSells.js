@@ -71,17 +71,19 @@ export default function ListSells({ navigation }) {
                   <Text style={styles.pedidoTexto}>Data do Pedido: {formatDate(item.orderDate)}</Text>
                   {
                     orderDetails[item.orderId] && orderDetails[item.orderId].pizzas.map(detail => (
-                      <View key={detail.pizzaId} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={styles.pedidoTexto}>
-                          {detail.name} (Quantidade: {detail.quantity})
-                        </Text>
-                        <Text style={styles.pedidoTexto}>
-                          R$ {(detail.price * detail.quantity).toFixed(2)}
-                        </Text>
+                      <View key={detail.pizzaId}>
+                        <Text style={styles.pizzaName}>{detail.name}</Text>
+                        <View style={styles.pizzaDetails}>
+                          <Text style={styles.pedidoTexto}>
+                            Quantidade: {detail.quantity}
+                          </Text>
+                          <Text style={styles.pedidoTexto}>
+                            R$ {detail.price.toFixed(2)} cada
+                          </Text>
+                        </View>
                       </View>
                     ))
                   }
-
                   <Text style={[styles.pedidoTexto, styles.total]}>
                     Valor Total do Pedido: R$ {orderDetails[item.orderId]?.total.toFixed(2)}
                   </Text>

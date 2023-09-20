@@ -14,20 +14,6 @@ const styles = StyleSheet.create({
     color: '#d32f2f',
     fontWeight: 'bold',
   },
-  botao: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#d32f2f',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginVertical: 5,
-  },
-  botaoTexto: {
-    fontSize: 18,
-    color: 'white',
-    fontWeight: 'bold',
-  },
   pedido: {
     width: '100%',
     backgroundColor: 'white',
@@ -56,7 +42,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#388e3c',
-  }
+  },
+  pizzaName: {
+    fontSize: 18,
+    fontWeight: '500',
+    marginTop: 10,
+    marginBottom: 5
+  },
+  pizzaDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10
+  },
+
 });
 
 export default styles;
