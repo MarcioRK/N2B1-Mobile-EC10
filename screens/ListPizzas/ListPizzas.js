@@ -104,23 +104,24 @@ export default function ListPizzas({addPizza}) {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <View style={{ alignItems: 'center' }}>
-        <Text>ListPizzas!</Text>
+      <View style={{ alignItems: 'center', marginTop: 20 }}>
+        <Text style={styles.pickerTitle}>Filtrar por categoria</Text>
 
-        <Picker
-          selectedValue={selectedCategory}
-          style={{ height: 50, width: 150 }}
-          onValueChange={(itemValue, itemIndex) => {
-            setSelectedCategory(itemValue);
-            loadPizzas(itemValue);  // Passando o itemValue aqui
-          }}
-        >
-
-          <Picker.Item label="All" value={null} />
-          {categories.map(cat => (
-            <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
-          ))}
-        </Picker>
+        <View style={styles.pickerContainer}>
+            <Picker
+                selectedValue={selectedCategory}
+                style={styles.pickerStyle}
+                onValueChange={(itemValue, itemIndex) => {
+                    setSelectedCategory(itemValue);
+                    loadPizzas(itemValue);
+                }}
+            >
+                <Picker.Item label="All" value={null} />
+                {categories.map(cat => (
+                    <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
+                ))}
+            </Picker>
+        </View>
 
 
 

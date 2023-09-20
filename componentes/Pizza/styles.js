@@ -33,12 +33,29 @@ const styles = StyleSheet.create({
       textAlign: 'center', // centraliza a descrição horizontalmente
       marginTop: 5, // espaço entre o nome e a descrição
     },
-
-
-actionButtons: {
+    pizzaPrice: {
+      color: 'gray', // cor de descrição mais clara
+      textAlign: 'center', // centraliza a descrição horizontalmente
+      marginTop: 5, // espaço entre o nome e a descrição
+    },
+  actionButtons: {
     flexDirection: 'row',  // Defina a direção para 'row'
     justifyContent: 'space-between',
     width: 70,  // Ajuste a largura conforme necessário para manter os botões espaçados
+  },
+  deleteIcon: {
+    color: 'red', // ou qualquer outra cor que você queira para o ícone de remover
+  },
+
+  editIcon: {
+      color: 'green', // ou qualquer outra cor que você queira para o ícone de editar
+  },
+
+  actionButtons: {
+      flexDirection: 'row',  
+      justifyContent: 'space-between',
+      width: 70,
+      marginTop: 20, // espaço entre os detalhes da pizza e os botões. Ajuste conforme necessário.
   },
 
   
