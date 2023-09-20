@@ -3,30 +3,26 @@ import { View, Text, Button, FlatList, TouchableOpacity, Alert } from 'react-nat
 import styles from './styles';
 import { getAllPizzas, saveOrder, getAllCategories } from '../../services/dbservices';
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback } from 'react'; // Adicione esta importação no topo
-import PizzaSell from '../../componentes/PizzaSell/index'; // Ajuste o caminho conforme a estrutura do seu projeto.
+import { useCallback } from 'react';
+import PizzaSell from '../../componentes/PizzaSell/index';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Picker } from '@react-native-picker/picker'; // Certifique-se de ter essa importação
-
-
+import { Picker } from '@react-native-picker/picker';
 
 export default function SellPizza() {
     const [pizzas, setPizzas] = useState([]);
     const [cart, setCart] = useState([]);
-    const [categories, setCategories] = useState([]); // Estado para armazenar todas as categorias
-    const [selectedCategory, setSelectedCategory] = useState(null); // Estado para armazenar a categoria selecionada
-
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     const navigation = useNavigation();
 
-
     useFocusEffect(
-      useCallback(() => {
+        useCallback(() => {
             setSelectedCategory(null);
             loadPizzas();
             loadCategories();
-      }, [cart])
+        }, [cart])
     );
 
     async function loadCategories() {
@@ -38,25 +34,25 @@ export default function SellPizza() {
         }
     }
 
-    async function finalizeOrder() {
+    async function finalizeOrder(updatedCart) {
         const orderDate = new Date().toISOString();
-        // Verificar se o carrinho está vazio
-        if (cart.length === 0) {
+        if (updatedCart.length === 0) {
             Alert.alert('Atenção', 'Adicione ao menos uma pizza ao carrinho antes de finalizar o pedido.');
             return;
         }
     
         try {
-            await saveOrder(orderDate, cart);
+            await saveOrder(orderDate, updatedCart);
             Alert.alert('Pedido salvo com sucesso!');
-            setCart([]); // clear the cart after saving
+            setCart([]);
         } catch (error) {
             Alert.alert('Erro ao salvar o pedido.', error.toString());
         }
     }
-    
-  
-  
+
+    function handleCartUpdate(updatedCart) {
+        setCart(updatedCart);
+    }
 
     async function loadPizzas(category) {
         try {
@@ -66,8 +62,7 @@ export default function SellPizza() {
             if (category) {
                 filteredPizzas = allPizzas.filter(pizza => pizza.categorie === category);
             }
-    
-            // Verifique se o número de pizzas é ímpar e adicione um item fictício, se necessário
+
             if (filteredPizzas.length % 2 !== 0) {
                 filteredPizzas.push({ id: 'placeholder', placeholder: true });
             }
@@ -77,41 +72,31 @@ export default function SellPizza() {
             Alert.alert(e.toString());
         }
     }
-    
-    
-    
-    
-
 
     function addToCart(pizzaToAdd) {
-        const found = cart.find(pizza => pizza.id === pizzaToAdd.id);
+        const newCart = [...cart];
+        const found = newCart.find(pizza => pizza.id === pizzaToAdd.id);
         if (found) {
-            setCart(cart.map(pizza => 
-                pizza.id === pizzaToAdd.id 
-                ? { ...pizza, quantity: pizza.quantity + 1 } 
-                : pizza
-            ));
+            found.quantity += 1;
         } else {
-            setCart([...cart, { ...pizzaToAdd, quantity: 1 }]);
+            newCart.push({ ...pizzaToAdd, quantity: 1 });
         }
+        setCart(newCart);
     }
-
+    
     function removeFromCart(pizzaId) {
-        const found = cart.find(pizza => pizza.id === pizzaId);
-        if (found && found.quantity > 1) {
-            setCart(cart.map(pizza => 
-                pizza.id === pizzaId 
-                ? { ...pizza, quantity: pizza.quantity - 1 } 
-                : pizza
-            ));
-        } else {
-            setCart(cart.filter(pizza => pizza.id !== pizzaId));
+        const newCart = [...cart];
+        const found = newCart.find(pizza => pizza.id === pizzaId);
+        if (found) {
+            if (found.quantity > 1) {
+                found.quantity -= 1;
+            } else {
+                const index = newCart.indexOf(found);
+                newCart.splice(index, 1);
+            }
         }
+        setCart(newCart);
     }
-
-    useEffect(() => {
-        loadPizzas();
-    }, []);
 
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -140,7 +125,7 @@ export default function SellPizza() {
                 contentContainerStyle={{ alignItems: 'center' }}
                 renderItem={({ item }) => {
                     if (item.placeholder) {
-                        return <View style={{ width: '50%', height: 150 }} />; // Ajuste a altura conforme necessário
+                        return <View style={{ width: '50%', height: 150 }} />;
                     }
                     const cartItem = cart.find(pizza => pizza.id === item.id);
                     const quantity = cartItem ? cartItem.quantity : 0;
@@ -162,14 +147,20 @@ export default function SellPizza() {
                         />
                     );
                 }}
-                
             />
 
-            <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('Cart', { cart: cart, finalizeOrder: finalizeOrder })}>
-                <Text style={styles.textoBotao}>Finalizar Pedido</Text>
+            <TouchableOpacity 
+                style={styles.finalizeButton} 
+                onPress={() => {
+                    navigation.navigate('Cart', { 
+                        cart: cart, 
+                        finalizeOrder: finalizeOrder, 
+                        updateCart: handleCartUpdate
+                    });
+                }}
+            >
+                <Text style={styles.finalizeText}>Finalizar Compra</Text>
             </TouchableOpacity>
-
         </View>
     );
-    
 }
