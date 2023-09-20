@@ -5,23 +5,23 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ffebcd',  // A light color for background
+        backgroundColor: '#ffebcd',
     },
     title: {
-        fontSize: 40,  // Increased font size
+        fontSize: 40,
         marginBottom: 20,
         color: 'orange',
-        textShadowColor: 'rgba(0, 0, 0, 0.75)',  // Shadow color
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
         textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 10
     },
     slogan: {
         fontSize: 20,
-        color: '#d35400',  // A darker shade of orange
+        color: '#d35400', 
         fontStyle: 'italic',
     },
     pizzaImage: {
-        width: 220,  // Slightly increased size
+        width: 220,  
         height: 220,
         resizeMode: 'contain',
         marginBottom: 30,
