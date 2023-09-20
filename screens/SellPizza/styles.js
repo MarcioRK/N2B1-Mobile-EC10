@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         color: 'black', // ou qualquer outra cor que você queira para o texto
         fontWeight: 'bold'
     },
-    finalizarTexto: {
+    finalizeText: {
         fontSize: 20,
         fontWeight: 'bold',
     },
@@ -49,13 +49,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 20
   },
-
-  
   pickerItemStyle: {
       height: 50,
       color: 'black',
       fontSize: 16
-  }
+  },
+  finalizeButton: {
+    width: windowWidth * 0.8, // 80% da largura da tela
+    height: 55,
+    backgroundColor: '#FF6347', 
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row', // Para alinhar ícones e texto horizontalmente
+    marginVertical: 20, // Adiciona uma margem vertical para separá-lo da lista
+    elevation: 3, // Adiciona sombra no Android
+    shadowOffset: { width: 0, height: 3 }, // Adiciona sombra no iOS
+    shadowOpacity: 0.3, // Transparência da sombra
+    shadowRadius: 3, // Raio da sombra
+}
+
   
 });
 
