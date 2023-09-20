@@ -41,7 +41,7 @@ export default function ListPizzas({addPizza}) {
 
 
   function editarPizza(pizza) {
-    navigation.navigate('DisplayPizza', { pizza });
+    navigation.navigate('RegisterPizza', { pizza });
   }
 
   async function loadPizzas(category) {
