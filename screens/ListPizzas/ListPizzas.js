@@ -104,45 +104,42 @@ export default function ListPizzas({addPizza}) {
   }
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <View style={{ alignItems: 'center', marginTop: 20 }}>
-        <Text style={styles.pickerTitle}>Filtrar por categoria</Text>
-        
-        <View style={styles.pickerContainer}>
-            <Picker
-                selectedValue={selectedCategory}
-                style={styles.pickerStyle}
-                onValueChange={(itemValue, itemIndex) => {
-                    setSelectedCategory(itemValue);
-                    loadPizzas(itemValue);
-                }}
-            >
-                <Picker.Item label="All" value={null} />
-                {categories.map(cat => (
-                    <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
-                ))}
-            </Picker>
-        </View>
-
-
-
-        
-        <FlatList 
-          data={pizzas}
-          renderItem={({ item }) => (
-            <Pizza
-              pizza={item}
-              removerElemento={removerElemento}
-              editar={() => editarPizza(item)}
-            />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={2} // Configuração para exibir 2 itens por linha
-          contentContainerStyle={{ alignItems: 'center' }} 
-        />
-
-        {/* Restante do seu código ... */}
-      </View>
-    </ScrollView>
+    <View style={{ flex: 1 }}>
+      <FlatList 
+        data={pizzas}
+        ListHeaderComponent={
+          <>
+            <View style={{ alignItems: 'center', marginTop: 20 }}>
+              <Text style={styles.pickerTitle}>Filtrar por categoria</Text>
+              <View style={styles.pickerContainer}>
+                  <Picker
+                      selectedValue={selectedCategory}
+                      style={styles.pickerStyle}
+                      onValueChange={(itemValue, itemIndex) => {
+                          setSelectedCategory(itemValue);
+                          loadPizzas(itemValue);
+                      }}
+                  >
+                      <Picker.Item label="All" value={null} />
+                      {categories.map(cat => (
+                          <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
+                      ))}
+                  </Picker>
+              </View>
+            </View>
+          </>
+        }
+        renderItem={({ item }) => (
+          <Pizza
+            pizza={item}
+            removerElemento={removerElemento}
+            editar={() => editarPizza(item)}
+          />
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={2}
+        contentContainerStyle={{ alignItems: 'center' }} 
+      />
+    </View>
   );
 }

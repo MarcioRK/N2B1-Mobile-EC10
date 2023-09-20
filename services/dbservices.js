@@ -31,7 +31,19 @@ export async function createPizzasTable() {
         dbConnection.transaction(tx => {
             tx.executeSql(query, [], 
                 () => {
-                    
+                    // Depois de criar a tabela, verifique se está vazia
+                    tx.executeSql('SELECT COUNT(*) as count FROM tbPizzas', [], (tx, result) => {
+                        const count = result.rows.item(0).count;
+
+                        if (count === 0) {
+                            // Se a tabela estiver vazia, insira registros padrão
+                            insertDefaultRecords(tx)
+                                .then(() => resolve(true))
+                                .catch(error => reject(error));
+                        } else {
+                            resolve(true);
+                        }
+                    });
                 },
                 (_, error) => reject(error)
             );
@@ -54,7 +66,19 @@ export async function createCategoriesTable() {
         dbConnection.transaction(tx => {
             tx.executeSql(query, [], 
                 () => {
-                    
+                    // Depois de criar a tabela, verifique se está vazia
+                    tx.executeSql('SELECT COUNT(*) as count FROM tbCategories', [], (tx, result) => {
+                        const count = result.rows.item(0).count;
+
+                        if (count === 0) {
+                            // Se a tabela estiver vazia, insira registros padrão
+                            insertDefaultRecords(tx)
+                                .then(() => resolve(true))
+                                .catch(error => reject(error));
+                        } else {
+                            resolve(true);
+                        }
+                    });
                 },
                 (_, error) => reject(error)
             );
