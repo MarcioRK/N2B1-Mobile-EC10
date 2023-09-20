@@ -1,6 +1,10 @@
 import { StyleSheet, StatusBar } from 'react-native';
 
 const styles = StyleSheet.create({
+  screenAll: {
+    flex: 1,
+    backgroundColor: "#ffebcd",
+  },
   container: {
     flex: 1,
     alignItems: 'center',

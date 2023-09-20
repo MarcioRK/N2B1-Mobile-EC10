@@ -77,7 +77,7 @@ export default function ListPizzas({ addPizza }) {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.screenAll}>
       <FlatList
         data={pizzas}
         ListHeaderComponent={
