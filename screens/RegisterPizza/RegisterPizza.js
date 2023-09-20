@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert, Keyboard } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
-import { createPizzasTable, addPizza, getAllCategories } from '../../services/dbservices';
-import { useFocusEffect } from '@react-navigation/native';
+import { createPizzasTable, addPizza, getAllCategories, updatePizza } from '../../services/dbservices';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
+
 
 export default function RegisterPizza() {
   const [id, setId] = useState(null);
@@ -13,11 +14,19 @@ export default function RegisterPizza() {
   const [preco, setPreco] = useState('');
   const [categorias, setCategorias] = useState([]);
 
+  const route = useRoute();
+
+  const { pizza } = route.params || {};
+
   useFocusEffect(
     useCallback(() => {
       loadCategories();
     }, [])
   );
+
+  useEffect(() => {
+    loadPizzaUpdate();
+  }, [pizza]);
 
   async function loadCategories() {
     try {
@@ -29,6 +38,18 @@ export default function RegisterPizza() {
     }
   }
   
+  async function loadPizzaUpdate() {
+    if (pizza) {
+      console.log("Pizza Carregada para Update");
+      console.log(pizza);
+      setName(pizza.name);
+      setDescription(pizza.description);
+      setCategoriaSelecionada(pizza.categorie);
+      setPreco(pizza.price.toString());
+      setId(pizza.id);
+    }
+  }
+
   function createUniqueId() {
     return Date.now();
   }
@@ -61,11 +82,29 @@ export default function RegisterPizza() {
           setDescription('');
           setCategoriaSelecionada('');
           setPreco('');
-          setId(null); // Limpar o campo "Id" após o cadastro
+          setId(null);
           loadCategories();
           Keyboard.dismiss();
         } else {
           Alert.alert('Erro', 'Falha ao cadastrar a pizza.');
+        }
+      }
+      else{
+        console.log("Fluxo de Atualização");
+        let resposta = await updatePizza(obj);
+        if (resposta) {
+          Alert.alert('Sucesso', 'Pizza Atualizada com sucesso!');
+          console.log("Atualizou a pizza");
+          console.log(obj);
+          setName('');
+          setDescription('');
+          setCategoriaSelecionada('');
+          setPreco('');
+          setId(null);
+          loadCategories();
+          Keyboard.dismiss();
+        } else {
+          Alert.alert('Erro', 'Falha ao atualizar a pizza.');
         }
       }
     } catch (e) {
