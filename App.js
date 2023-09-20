@@ -77,7 +77,7 @@ const App = () => {
           options={{
             tabBarVisible: false,
             tabBarIcon: ({ color, size }) => (
-              <Icon name="ios-add-circle-outline" color={color} size={size} />
+              <Icon name="list-outline" color={color} size={size} />
             ),
             headerShown: false  
           }}
@@ -89,7 +89,7 @@ const App = () => {
           options={{
             tabBarVisible: false,
             tabBarIcon: ({ color, size }) => (
-              <Icon name="ios-add-circle-outline" color={color} size={size} />
+              <Icon name="card-outline" color={color} size={size} />
             ),
             headerShown: false  
           }}
@@ -101,7 +101,7 @@ const App = () => {
           options={{
             tabBarVisible: false,
             tabBarIcon: ({ color, size }) => (
-              <Icon name="ios-add-circle-outline" color={color} size={size} />
+              <Icon name="save-outline" color={color} size={size} />
             ),
             headerShown: false  
           }}
@@ -113,7 +113,7 @@ const App = () => {
           options={{
             tabBarVisible: false,
             tabBarIcon: ({ color, size }) => (
-              <Icon name="ios-add-circle-outline" color={color} size={size} />
+              <Icon name="save-outline" color={color} size={size} />
             ),
             headerShown: false  
           }}
