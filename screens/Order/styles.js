@@ -5,17 +5,17 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'orange',
+      backgroundColor: 'white',
       paddingHorizontal: 20,
     },
     titulo: {
         fontSize: 30,
         marginBottom: 50,
         fontWeight: 'bold',
-        color: 'white'
+        color: 'orange'
     },
     actionButton: {
-      backgroundColor: '#00ffff',
+      backgroundColor: 'orange',
       borderRadius: 25,
       paddingHorizontal: 40,
       paddingVertical: 15,
@@ -30,7 +30,12 @@ const styles = StyleSheet.create({
       color: 'white',
       fontSize: 18,
       fontWeight: 'bold'
-    }
+    },
+    buttonContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+  }
 });
 
 export default styles;
