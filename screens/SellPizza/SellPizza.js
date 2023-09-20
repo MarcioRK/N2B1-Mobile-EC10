@@ -23,8 +23,9 @@ export default function SellPizza() {
 
     useFocusEffect(
       useCallback(() => {
-          loadPizzas();
-          loadCategories();
+            setSelectedCategory(null);
+            loadPizzas();
+            loadCategories();
       }, [cart])
     );
 
@@ -114,21 +115,23 @@ export default function SellPizza() {
 
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Venda de Pizzas!</Text>
-
-            <Picker
-                selectedValue={selectedCategory}
-                style={{ height: 50, width: 150 }}
-                onValueChange={(itemValue, itemIndex) => {
-                    setSelectedCategory(itemValue);
-                    loadPizzas(itemValue);
-                }}
-            >
-                <Picker.Item label="All" value={null} />
-                {categories.map(cat => (
-                    <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
-                ))}
-            </Picker>
+            <Text style={styles.pickerTitle}>Filtrar por categoria</Text>
+            
+            <View style={styles.pickerContainer}>
+                <Picker
+                    selectedValue={selectedCategory}
+                    style={styles.pickerStyle}
+                    onValueChange={(itemValue, itemIndex) => {
+                        setSelectedCategory(itemValue);
+                        loadPizzas(itemValue);
+                    }}
+                >
+                    <Picker.Item label="All" value={null} />
+                    {categories.map(cat => (
+                        <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
+                    ))}
+                </Picker>
+            </View>
 
             <FlatList 
                 data={pizzas}

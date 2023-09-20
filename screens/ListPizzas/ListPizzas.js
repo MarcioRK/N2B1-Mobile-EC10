@@ -68,6 +68,7 @@ export default function ListPizzas({addPizza}) {
 
   useFocusEffect(
     useCallback(() => {
+      setSelectedCategory(null);
       loadPizzas();
       loadCategories();
       return () => {}; // função de retorno opcional para limpar efeitos colaterais.

@@ -30,7 +30,33 @@ const styles = StyleSheet.create({
     finalizarTexto: {
         fontSize: 20,
         fontWeight: 'bold',
-    }
+    },
+    pickerContainer: {
+      marginVertical: 20,
+      borderColor: '#000',
+      borderWidth: 1,
+      borderRadius: 10,
+      overflow: 'hidden'
+  },
+  pickerStyle: {
+      height: 50,
+      width: 250,
+      backgroundColor: '#f0f0f0'
+  },
+  pickerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    marginTop: 20
+  },
+
+  
+  pickerItemStyle: {
+      height: 50,
+      color: 'black',
+      fontSize: 16
+  }
+  
 });
 
 export default styles;
