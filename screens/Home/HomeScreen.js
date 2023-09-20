@@ -1,41 +1,13 @@
-import {react} from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Text, View, Image } from 'react-native';
 import styles from './styles';
-import ImagePicker from 'react-native-image-picker';
 
-export default function HomeScreen({navigation}){
+export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.container}>
-            
+            <Image source={require('../../assets/Pizza-illustration-on-transparent-background-PNG.png')} style={styles.pizzaImage} />
             <Text style={styles.title}>Prime Pizzas</Text>
-
-            {/* <TouchableOpacity style={styles.Button}
-                onPress={()=>navigation.navigate('ListPizzas')}>
-                <Text>Listar pizzas</Text>
-            </TouchableOpacity>
-
-
-            <TouchableOpacity style={styles.Button}
-                onPress={()=>navigation.navigate('RegisterPizza')}>
-                <Text>Cadastrar pizza</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.Button}
-                onPress={()=>navigation.navigate('RegisterCategory')}>
-                <Text>Registrar categoria</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.Button}
-                onPress={()=>navigation.navigate('SellPizza')}>
-                <Text>Realizar venda</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.Button}
-                onPress={()=>navigation.navigate('ListSells')}>
-                <Text>Listar vendas</Text>
-            </TouchableOpacity> */}
-
+            <Text style={styles.slogan}>Sabor inigualável em cada pedaço!</Text>
         </View>
-
     );
 }
