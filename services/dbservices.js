@@ -575,6 +575,22 @@ function insertDefaultRecords(tx) {
             // Adicione mais registros padrão conforme necessário
         ];
 
+        const defaultCategories = [
+            { id: '9999999991', name: 'Salgada', description: 'Categoria para pizzas salgadas' },
+            // Adicione mais registros padrão de categoria conforme necessário
+        ];
+
+        const categoryQueries = defaultCategories.map(category => {
+            return new Promise((innerResolve, innerReject) => {
+                tx.executeSql(
+                    'INSERT INTO tbCategories (id, name, description) VALUES (?, ?, ?)', 
+                    [category.id, category.name, category.description], 
+                    () => innerResolve(),
+                    (_, error) => innerReject(error)
+                );
+            });
+        });
+
         const queries = defaultPizzas.map(pizza => {
             return new Promise((innerResolve, innerReject) => {
                 tx.executeSql(
