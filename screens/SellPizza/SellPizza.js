@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, FlatList, TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
-import { getAllPizzas, saveOrder, createOrdersTable, createOrderItemsTable } from '../../services/dbservices';
+import { getAllPizzas, saveOrder, getAllCategories } from '../../services/dbservices';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react'; // Adicione esta importação no topo
 import PizzaSell from '../../componentes/PizzaSell/index'; // Ajuste o caminho conforme a estrutura do seu projeto.
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Picker } from '@react-native-picker/picker'; // Certifique-se de ter essa importação
+
 
 
 export default function SellPizza() {
     const [pizzas, setPizzas] = useState([]);
     const [cart, setCart] = useState([]);
+    const [categories, setCategories] = useState([]); // Estado para armazenar todas as categorias
+    const [selectedCategory, setSelectedCategory] = useState(null); // Estado para armazenar a categoria selecionada
+
 
     const navigation = useNavigation();
 
@@ -19,8 +24,18 @@ export default function SellPizza() {
     useFocusEffect(
       useCallback(() => {
           loadPizzas();
+          loadCategories();
       }, [cart])
     );
+
+    async function loadCategories() {
+        try {
+            const categoriesList = await getAllCategories();
+            setCategories(categoriesList);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     async function finalizeOrder() {
         const orderDate = new Date().toISOString();
@@ -42,24 +57,27 @@ export default function SellPizza() {
   
   
 
-  async function loadPizzas() {
-    try {
-        const pizzasList = await getAllPizzas();
-        setPizzas(pizzasList);
-
-        // Mova a validação do carrinho para cá
-        const validCartItems = cart.filter(cartItem => {
-            return pizzasList.some(pizza => pizza.id === cartItem.id);
-        });
-
-        if (validCartItems.length !== cart.length) {
-            Alert.alert("Atenção", "Alguns itens no seu carrinho foram removidos do banco de dados e foram excluídos do carrinho.");
-            setCart(validCartItems);
+    async function loadPizzas(category) {
+        try {
+            const allPizzas = await getAllPizzas();
+            let filteredPizzas = allPizzas;
+    
+            if (category) {
+                filteredPizzas = allPizzas.filter(pizza => pizza.categorie === category);
+            }
+    
+            if (filteredPizzas.length % 2 !== 0) { // Se o número de pizzas é ímpar
+                filteredPizzas.push({ id: 'empty', empty: true }); // Adicione um item vazio
+            }
+    
+            setPizzas(filteredPizzas);
+        } catch (e) {
+            Alert.alert(e.toString());
         }
-    } catch (e) {
-        Alert.alert(e.toString());
     }
-  }
+    
+    
+    
 
 
     function addToCart(pizzaToAdd) {
@@ -93,54 +111,37 @@ export default function SellPizza() {
     }, []);
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Venda de Pizzas!</Text>
-
-            <FlatList 
-                data={pizzas}
-                keyExtractor={(item) => item.id.toString()}
-                numColumns={2} // Adicione esta linha
-                contentContainerStyle={{ alignItems: 'center' }} // Adicione esta linha
-                renderItem={({ item }) => {
-                    const cartItem = cart.find(pizza => pizza.id === item.id);
-                    const quantity = cartItem ? cartItem.quantity : 0;
-                
-                    return (
-                        <PizzaSell 
-                            pizza={item}
-                            quantity={quantity}
-                            LeftAction={(props) => (
-                                <TouchableOpacity onPress={() => removeFromCart(props.pizza.id)}>
-                                    <Ionicons name="md-remove-circle" size={32} />
-                                </TouchableOpacity>
-                            )}
-                            RightAction={(props) => (
-                                <TouchableOpacity onPress={() => addToCart(props.pizza)}>
-                                    <Ionicons name="md-add-circle" size={32} />
-                                </TouchableOpacity>
-                            )}
-                        />
-                    );
-                }}
-                
-            />
-
-
-
-            {/* <View style={{ marginTop: 20 }}>
-                <Text>Carrinho:</Text>
-                {cart.map((pizza, index) => (
-                    <View key={index} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text>{pizza.name} (x{pizza.quantity})</Text>
-                        <Button title="Remover" onPress={() => removeFromCart(pizza.id)} />
-                    </View>
-                ))}
-            </View> */}
-
-            <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('Cart', { cart: cart, finalizeOrder: finalizeOrder })}>
-                <Text style={styles.textoBotao}>Finalizar Pedido</Text>
-            </TouchableOpacity>
-
-        </View>
+        <FlatList 
+            data={pizzas}
+            keyExtractor={(item) => item.id.toString()}
+            numColumns={2}
+            contentContainerStyle={{ alignItems: 'center' }}
+            renderItem={({ item }) => {
+                if (item.empty) { // Se o item é vazio
+                    return <View style={{ width: '50%', height: 200 }} />; // Este tamanho deve ser igual ao tamanho de um item de pizza
+                }
+    
+                const cartItem = cart.find(pizza => pizza.id === item.id);
+                const quantity = cartItem ? cartItem.quantity : 0;
+    
+                return (
+                    <PizzaSell 
+                        pizza={item}
+                        quantity={quantity}
+                        LeftAction={(props) => (
+                            <TouchableOpacity onPress={() => removeFromCart(props.pizza.id)}>
+                                <Ionicons name="md-remove-circle" size={32} />
+                            </TouchableOpacity>
+                        )}
+                        RightAction={(props) => (
+                            <TouchableOpacity onPress={() => addToCart(props.pizza)}>
+                                <Ionicons name="md-add-circle" size={32} />
+                            </TouchableOpacity>
+                        )}
+                    />
+                );
+            }}
+        />
     );
+    
 }

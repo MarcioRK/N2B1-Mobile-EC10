@@ -19,22 +19,23 @@ export default function PizzaSell({ pizza, quantity, LeftAction, RightAction  })
 
     return (
         <View style={styles.pizzaContainer}>
+            
+            {/* Parte da Imagem */}
             <Image style={styles.pizzaIcon} source={images[pizza.imagePath] || images.defaultPizzaImage} />
+            
+            {/* Detalhes da Pizza */}
             <View style={styles.pizzaDetails}>
                 <Text style={styles.pizzaName}>{pizza.name}</Text>
                 <Text style={styles.pizzaDescription}>{pizza.description}</Text>
                 <Text style={styles.pizzaDescription}>R$ {pizza.price}</Text>
             </View>
+
+            {/* Botões de Ação */}
             <View style={styles.actionButtons}>
                 {LeftAction && <LeftAction pizza={pizza} />}
-                
-                <Text style={styles.quantityText}>
-                    {quantity}
-                </Text>
-                
+                <Text style={styles.quantityText}>{quantity}</Text>
                 {RightAction && <RightAction pizza={pizza} />}
             </View>
-
         </View>
     );
 }
