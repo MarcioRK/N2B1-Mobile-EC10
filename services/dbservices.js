@@ -31,19 +31,7 @@ export async function createPizzasTable() {
         dbConnection.transaction(tx => {
             tx.executeSql(query, [], 
                 () => {
-                    // Depois de criar a tabela, verifique se está vazia
-                    tx.executeSql('SELECT COUNT(*) as count FROM tbPizzas', [], (tx, result) => {
-                        const count = result.rows.item(0).count;
-
-                        if (count === 0) {
-                            // Se a tabela estiver vazia, insira registros padrão
-                            insertDefaultRecords(tx)
-                                .then(() => resolve(true))
-                                .catch(error => reject(error));
-                        } else {
-                            resolve(true);
-                        }
-                    });
+                    
                 },
                 (_, error) => reject(error)
             );
@@ -66,19 +54,7 @@ export async function createCategoriesTable() {
         dbConnection.transaction(tx => {
             tx.executeSql(query, [], 
                 () => {
-                    // Depois de criar a tabela, verifique se está vazia
-                    tx.executeSql('SELECT COUNT(*) as count FROM tbCategories', [], (tx, result) => {
-                        const count = result.rows.item(0).count;
-
-                        if (count === 0) {
-                            // Se a tabela estiver vazia, insira registros padrão
-                            insertDefaultRecords(tx)
-                                .then(() => resolve(true))
-                                .catch(error => reject(error));
-                        } else {
-                            resolve(true);
-                        }
-                    });
+                    
                 },
                 (_, error) => reject(error)
             );
@@ -591,7 +567,7 @@ function insertDefaultRecords(tx) {
             });
         });
 
-        const queries = defaultPizzas.map(pizza => {
+        const pizzaQueries = defaultPizzas.map(pizza => {
             return new Promise((innerResolve, innerReject) => {
                 tx.executeSql(
                     'INSERT INTO tbPizzas (id, name, description, price, categorie, imagePath) VALUES (?, ?, ?, ?, ?, ?)', 
@@ -602,9 +578,12 @@ function insertDefaultRecords(tx) {
             });
         });
 
-        Promise.all(queries)
-            .then(() => resolve())
-            .catch(error => reject(error));
+        try {
+            Promise.all([...pizzaQueries, ...categoryQueries]);
+            resolve();
+        } catch (error) {
+            reject(error);
+        }
     });
 }
 

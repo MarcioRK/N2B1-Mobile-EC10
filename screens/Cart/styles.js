@@ -41,18 +41,21 @@ quantityText: {
     height: 24,  // Ajustado para corresponder ao tamanho dos ícones
     justifyContent: 'center' // Alinha o ícone verticalmente no centro
 },
-    finalizeButton: {
-        backgroundColor: '#d32f2f',
-        padding: 15,
-        borderRadius: 10,
-        marginTop: 20,
-        alignItems: 'center'
-    },
-    finalizeText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold'
-    },
+finalizeButton: {
+  backgroundColor: '#d32f2f',
+  padding: 15,
+  borderRadius: 10,
+  marginTop: 20,
+  alignItems: 'center',
+  width: '80%',
+  alignSelf: 'center'
+},
+finalizeText: {
+  color: '#fff',
+  fontSize: 18,
+  fontWeight: 'bold'
+},
+
     detailContainer: {
       flexDirection: 'row',
       alignItems: 'center',

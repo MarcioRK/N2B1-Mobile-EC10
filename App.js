@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect, Alert } from 'react';
 
-import Home from './screens/Home/Home';
+import HomeScreen from './screens/Home/HomeScreen';
 import ListPizzas from './screens/ListPizzas/ListPizzas';
 import RegisterPizza from './screens/RegisterPizza/RegisterPizza';
 import DisplayPizza from './screens/DisplayPizza/DisplayPizza';
@@ -30,7 +30,7 @@ const Stack = createStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ListPizzas" component={ListPizzas} options={{ headerShown: false }} />
       <Stack.Screen name="RegisterPizza" component={RegisterPizza} options={{ headerShown: false }} />
       <Stack.Screen name="DisplayPizza" component={DisplayPizza} options={{ headerShown: false }} />

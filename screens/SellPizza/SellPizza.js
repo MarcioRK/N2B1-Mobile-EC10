@@ -155,12 +155,13 @@ export default function SellPizza() {
                     navigation.navigate('Cart', { 
                         cart: cart, 
                         finalizeOrder: finalizeOrder, 
-                        updateCart: handleCartUpdate
+                        updateCart: handleCartUpdate 
                     });
                 }}
             >
                 <Text style={styles.finalizeText}>Finalizar Compra</Text>
             </TouchableOpacity>
+
         </View>
     );
 }
