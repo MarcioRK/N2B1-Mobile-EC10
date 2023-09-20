@@ -243,24 +243,6 @@ export function deleteCategorie(id) {
     });
 }
 
-export function deleteAllPizzas() {
-    console.log("Deleting all contacts...");
-    return new Promise((resolve, reject) => {
-        let query = 'delete from tbPizzas';
-        let dbConnection = getDbConnection();
-        dbConnection.transaction(tx => {
-            tx.executeSql(query, [],
-                (tx, result) => resolve(result.rowsAffected > 0)
-            );
-        },
-            error => {
-                console.log(error);
-                resolve(false);
-            }
-        );
-    });
-}
-
 export function deleteAllCategories() {
     console.log("Deleting all categories...");
     return new Promise((resolve, reject) => {
@@ -452,64 +434,6 @@ export function getOrderById(orderId) {
     });
 }
 
-
-
-export function deleteOrder(orderId) {
-    // return new Promise((resolve, reject) => {
-    //     let query = 'DELETE FROM tbOrders WHERE id = ?';
-    //     let dbConnection = getDbConnection();
-    //     dbConnection.transaction(tx => {
-    //         tx.executeSql(query, [orderId],
-    //             (_, result) => {
-    //                 resolve(result.rowsAffected > 0);
-    //             },
-    //             (_, error) => {
-    //                 reject(error);
-    //             }
-    //         );
-    //     });
-    // });
-
-
-
-
-    console.log('Deleting orderId ' + orderId);
-    return new Promise((resolve, reject) => {
-        let query = 'delete from tbOrders where orderId=?';
-        let dbConnection = getDbConnection();
-
-        dbConnection.transaction(tx => {
-            tx.executeSql(query, [orderId],
-                (tx, result) => {
-                    resolve(result.rowsAffected > 0);
-                })
-        },
-            error => {
-                console.log(error);
-                resolve(false);
-            }
-        )
-    });
-}
-
-export function deleteAllOrders() {
-    console.log("Deleting all Orders...");
-    return new Promise((resolve, reject) => {
-        let query = 'delete from tbOrders';
-        let dbConnection = getDbConnection();
-        dbConnection.transaction(tx => {
-            tx.executeSql(query, [],
-                (tx, result) => resolve(result.rowsAffected > 0)
-            );
-        },
-            error => {
-                console.log(error);
-                resolve(false);
-            }
-        );
-    });
-}
-
 export function getOrderDetails(orderId) {
     return new Promise((resolve, reject) => {
         let dbConnection = getDbConnection();
@@ -520,8 +444,6 @@ export function getOrderDetails(orderId) {
             INNER JOIN tbOrderItems oi ON o.orderId = oi.orderId 
             INNER JOIN tbPizzas p ON oi.pizzaId = p.id 
             WHERE o.orderId = ?`;
-
-
 
         dbConnection.transaction(tx => {
             tx.executeSql(query, [orderId],

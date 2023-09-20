@@ -32,7 +32,7 @@ function Cart({ route, navigation }) {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Carrinho de Pizzas</Text>
-            <FlatList 
+            <FlatList
                 data={cartState}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (

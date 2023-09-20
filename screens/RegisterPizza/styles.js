@@ -1,12 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff', // Cor de fundo branca
-  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -15,11 +9,11 @@ const styles = StyleSheet.create({
   input: {
     width: '80%',
     height: 40,
-    borderColor: '#ccc', // Cor da borda cinza
+    borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 20,
     padding: 10,
-    borderRadius: 8, // Borda arredondada
+    borderRadius: 8,
   },
   label: {
     fontSize: 18,
@@ -30,20 +24,20 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 40,
     marginBottom: 20,
-    borderColor: '#ccc', // Cor da borda cinza
+    borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 8, // Borda arredondada
+    borderRadius: 8,
   },
   button: {
-    backgroundColor: '#FF6347', // Cor laranja (ou outra de sua escolha)
-    width: '80%', // Largura definida
-    height: 50, // Altura definida
-    justifyContent: 'center', // Centralizar conteúdo verticalmente
-    alignItems: 'center', // Centralizar conteúdo horizontalmente
+    backgroundColor: '#FF6347',
+    width: '80%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 8,
   },
   buttonText: {
-    color: '#fff', // Cor do texto branco
+    color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },

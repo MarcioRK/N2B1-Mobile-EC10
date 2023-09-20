@@ -10,7 +10,6 @@ import {
   Keyboard,
 } from 'react-native';
 import {
-  createCategoriesTable,
   addCategorie,
   getCategorie,
   updateCategorie,
@@ -18,7 +17,7 @@ import {
   deleteAllCategories,
   getAllCategories,
 } from '../../services/dbservices';
-import styles from './styles'; // Importe seus estilos
+import styles from './styles';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -63,17 +62,16 @@ export default function RegisterCategory() {
     }
     let novoRegistro = id === null;
 
-      let obj = {
-        id: novoRegistro ? createUniqueId() : id,
-        name: name,
-        description: description,
-      };
+    let obj = {
+      id: novoRegistro ? createUniqueId() : id,
+      name: name,
+      description: description,
+    };
     console.log("[salvaDados] id ", id)
     let categoriaPesquisada = await getCategorie(id)
     console.log("Cat Pesquisada e retornada:")
     console.log("[salvaDados] categoriaPesquisada ", categoriaPesquisada)
-    if (categoriaPesquisada.length === 0)
-    {  
+    if (categoriaPesquisada.length === 0) {
       try {
         if (novoRegistro) {
           let resposta = await addCategorie(obj);
@@ -83,9 +81,9 @@ export default function RegisterCategory() {
             console.log(obj);
             setName('');
             setDescription('');
-            setId(null); // Limpar o campo "Id" após o cadastro
+            setId(null);
             Keyboard.dismiss();
-            carregar(); // Atualize a lista após a inserção
+            carregar(); 
           } else {
             Alert.alert('Erro', 'Falha ao cadastrar a categoria.');
           }
@@ -94,7 +92,7 @@ export default function RegisterCategory() {
         Alert.alert('Erro', e.toString());
       }
     }
-    else{
+    else {
       try {
         let resposta = await updateCategorie(obj);
         if (resposta) {
@@ -103,9 +101,9 @@ export default function RegisterCategory() {
           console.log(obj);
           setName('');
           setDescription('');
-          setId(null); // Limpar o campo "Id" após o cadastro
+          setId(null);
           Keyboard.dismiss();
-          carregar(); // Atualize a lista após a inserção
+          carregar();
         } else {
           Alert.alert('Erro', 'Falha ao atualizar a categoria.');
         }
@@ -118,7 +116,7 @@ export default function RegisterCategory() {
   async function apagarTudo() {
     try {
       deleteAllCategories();
-      carregar(); // Atualize a lista após a exclusão de todos os itens
+      carregar(); 
     } catch (e) {
       Alert.alert('Erro', e.toString());
     }
@@ -127,7 +125,7 @@ export default function RegisterCategory() {
   async function removerElemento(id) {
     try {
       deleteCategorie(id);
-      carregar(); // Atualize a lista após a exclusão de um item
+      carregar(); 
     } catch (e) {
       Alert.alert('Erro', e.toString());
     }

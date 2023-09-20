@@ -1,56 +1,56 @@
-import {StyleSheet, StatusBar} from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'orange',
-    },
-    titulo:{
-        fontSize: 30,
-        marginBottom: 50,
-    },
-    botaoVoltar:{
-      width: 120,
-      height: 60,
-        backgroundColor: '#00ffff',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    pickerContainer: {
-      marginVertical: 20,
-      borderColor: '#000', // Cor da borda
-      borderWidth: 1, // Largura da borda
-      borderRadius: 10, // Raio da borda para arredondar os cantos
-      overflow: 'hidden' // Garante que o conteúdo interno não ultrapasse os cantos arredondados
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'orange',
   },
-  pickerStyle: {
-      height: 50,
-      width: 250,  // Aumente a largura se necessário
-      backgroundColor: '#f0f0f0'  // Cor de fundo para o picker
+  titulo: {
+    fontSize: 30,
+    marginBottom: 50,
+  },
+  botaoVoltar: {
+    width: 120,
+    height: 60,
+    backgroundColor: '#00ffff',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   pickerContainer: {
     marginVertical: 20,
-    borderColor: '#000', // Cor da borda
-    borderWidth: 1, // Largura da borda
-    borderRadius: 10, // Raio da borda para arredondar os cantos
-    overflow: 'hidden' // Garante que o conteúdo interno não ultrapasse os cantos arredondados
-},
-
-pickerStyle: {
+    borderColor: '#000',
+    borderWidth: 1,
+    borderRadius: 10,
+    overflow: 'hidden'
+  },
+  pickerStyle: {
     height: 50,
-    width: 250,  // Aumente a largura se necessário
-    backgroundColor: '#f0f0f0'  // Cor de fundo para o picker
-},
-pickerTitle: {
-  fontSize: 18,
-  fontWeight: 'bold',
-  marginBottom: 10  // Espaço entre o título e o picker
-}
+    width: 250,
+    backgroundColor: '#f0f0f0'
+  },
+  pickerContainer: {
+    marginVertical: 20,
+    borderColor: '#000',
+    borderWidth: 1,
+    borderRadius: 10,
+    overflow: 'hidden'
+  },
+
+  pickerStyle: {
+    height: 50,
+    width: 250,
+    backgroundColor: '#f0f0f0'
+  },
+  pickerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10
+  }
 
 
-  
-  });
-  
-  export default styles;
+
+});
+
+export default styles;

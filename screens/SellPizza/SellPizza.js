@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, Button, FlatList, TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
 import { getAllPizzas, saveOrder, getAllCategories } from '../../services/dbservices';
-import { useFocusEffect } from '@react-navigation/native';
-import { useCallback } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import PizzaSell from '../../componentes/PizzaSell/index';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 
 export default function SellPizza() {
@@ -40,7 +38,7 @@ export default function SellPizza() {
             Alert.alert('Atenção', 'Adicione ao menos uma pizza ao carrinho antes de finalizar o pedido.');
             return;
         }
-    
+
         try {
             await saveOrder(orderDate, updatedCart);
             Alert.alert('Pedido salvo com sucesso!');
@@ -58,7 +56,7 @@ export default function SellPizza() {
         try {
             const allPizzas = await getAllPizzas();
             let filteredPizzas = allPizzas;
-    
+
             if (category) {
                 filteredPizzas = allPizzas.filter(pizza => pizza.categorie === category);
             }
@@ -66,7 +64,7 @@ export default function SellPizza() {
             if (filteredPizzas.length % 2 !== 0) {
                 filteredPizzas.push({ id: 'placeholder', placeholder: true });
             }
-    
+
             setPizzas(filteredPizzas);
         } catch (e) {
             Alert.alert(e.toString());
@@ -83,7 +81,7 @@ export default function SellPizza() {
         }
         setCart(newCart);
     }
-    
+
     function removeFromCart(pizzaId) {
         const newCart = [...cart];
         const found = newCart.find(pizza => pizza.id === pizzaId);
@@ -101,7 +99,7 @@ export default function SellPizza() {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={styles.pickerTitle}>Filtrar por categoria</Text>
-            
+
             <View style={styles.pickerContainer}>
                 <Picker
                     selectedValue={selectedCategory}
@@ -118,7 +116,7 @@ export default function SellPizza() {
                 </Picker>
             </View>
 
-            <FlatList 
+            <FlatList
                 data={pizzas}
                 keyExtractor={(item) => item.id.toString()}
                 numColumns={2}
@@ -129,9 +127,9 @@ export default function SellPizza() {
                     }
                     const cartItem = cart.find(pizza => pizza.id === item.id);
                     const quantity = cartItem ? cartItem.quantity : 0;
-                
+
                     return (
-                        <PizzaSell 
+                        <PizzaSell
                             pizza={item}
                             quantity={quantity}
                             LeftAction={(props) => (
@@ -149,13 +147,13 @@ export default function SellPizza() {
                 }}
             />
 
-            <TouchableOpacity 
-                style={styles.finalizeButton} 
+            <TouchableOpacity
+                style={styles.finalizeButton}
                 onPress={() => {
-                    navigation.navigate('Cart', { 
-                        cart: cart, 
-                        finalizeOrder: finalizeOrder, 
-                        updateCart: handleCartUpdate 
+                    navigation.navigate('Cart', {
+                        cart: cart,
+                        finalizeOrder: finalizeOrder,
+                        updateCart: handleCartUpdate
                     });
                 }}
             >

@@ -1,27 +1,27 @@
-import {StyleSheet, StatusBar} from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start', // Alterado para 'flex-start' para começar do topo
-    backgroundColor: '#f6f6f6', // Fundo neutro
-    padding: 15, // Padding em todos os lados
+    justifyContent: 'flex-start',
+    backgroundColor: '#f6f6f6',
+    padding: 15,
   },
   titulo: {
-      fontSize: 26,
-      marginBottom: 20,
-      color: '#d32f2f', // Vermelho escuro
-      fontWeight: 'bold',
+    fontSize: 26,
+    marginBottom: 20,
+    color: '#d32f2f',
+    fontWeight: 'bold',
   },
   botao: {
-    width: '100%', // Ocupar toda a largura disponível
+    width: '100%',
     height: 50,
-    backgroundColor: '#d32f2f', // Vermelho escuro
+    backgroundColor: '#d32f2f',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10, // Bordas arredondadas
-    marginVertical: 5, // Margem vertical entre botões
+    borderRadius: 10,
+    marginVertical: 5,
   },
   botaoTexto: {
     fontSize: 18,
@@ -33,11 +33,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 15,
     borderRadius: 10,
-    marginBottom: 15, // Espaço entre os pedidos
+    marginBottom: 15,
     shadowColor: "#000",
     shadowOffset: {
-        width: 0,
-        height: 2,
+      width: 0,
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -46,17 +46,17 @@ const styles = StyleSheet.create({
   pedidoTitulo: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 5, // Espaço entre o título e o conteúdo do pedido
+    marginBottom: 5,
   },
   pedidoTexto: {
     fontSize: 16,
-    marginBottom: 5, // Espaço entre linhas de texto
+    marginBottom: 5,
   },
   total: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#388e3c', // Verde escuro (cor de manjericão)
+    color: '#388e3c',
   }
 });
-  
-  export default styles;
+
+export default styles;

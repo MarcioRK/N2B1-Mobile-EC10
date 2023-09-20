@@ -1,11 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   input: {
     height: 40,
     width: 250,
@@ -13,12 +8,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderWidth: 1,
     borderRadius: 5,
-  },
-  passwordContainer: {
-    flexDirection: 'row',
-  },
-  passwordInput: {
-    flex: 1,
   },
   areaBotoes: {
     flexDirection: 'row',
@@ -34,11 +23,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginRight: 5,
-  },
-  botaoCarregar: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
   },
   botaoApagarTudo: {
     backgroundColor: 'red',
@@ -100,18 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '20%',
     paddingRight: 5,
-  },
-  botaoEditar: {
-    backgroundColor: 'blue',
-    padding: 5,
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  botaoLimparItem: {
-    backgroundColor: 'gray',
-    padding: 5,
-    borderRadius: 5,
-  },
+  }
 });
 
 export default styles;

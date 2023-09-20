@@ -7,21 +7,13 @@ import { useState, useEffect, Alert } from 'react';
 import HomeScreen from './screens/Home/HomeScreen';
 import ListPizzas from './screens/ListPizzas/ListPizzas';
 import RegisterPizza from './screens/RegisterPizza/RegisterPizza';
-import DisplayPizza from './screens/DisplayPizza/DisplayPizza';
 import SellPizza from './screens/SellPizza/SellPizza';
 import ListSells from './screens/ListSells/ListSells';
 import RegisterCategory from './screens/RegisterCategory/RegisterCategory';
 import Cart from './screens/Cart/Cart';
 import Order from './screens/Order/Order';
 
-import {
-  createTable,
-  getAllPizzas,
-  addContact,
-  updateContact,
-  deleteContact,
-  deleteAllContacts,
-} from './services/dbservices';
+import { createTable } from './services/dbservices';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -32,7 +24,6 @@ const HomeStack = () => {
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ListPizzas" component={ListPizzas} options={{ headerShown: false }} />
       <Stack.Screen name="RegisterPizza" component={RegisterPizza} options={{ headerShown: false }} />
-      <Stack.Screen name="DisplayPizza" component={DisplayPizza} options={{ headerShown: false }} />
       <Stack.Screen name="SellPizza" component={SellPizza} options={{ headerShown: false }} />
       <Stack.Screen name="ListSells" component={ListSells} options={{ headerShown: false }} />
       <Stack.Screen name="RegisterCategory" component={RegisterCategory} options={{ headerShown: false }} />
