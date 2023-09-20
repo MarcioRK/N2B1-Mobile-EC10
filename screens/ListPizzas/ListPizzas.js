@@ -106,7 +106,7 @@ export default function ListPizzas({addPizza}) {
     <ScrollView style={{ flex: 1 }}>
       <View style={{ alignItems: 'center', marginTop: 20 }}>
         <Text style={styles.pickerTitle}>Filtrar por categoria</Text>
-
+        
         <View style={styles.pickerContainer}>
             <Picker
                 selectedValue={selectedCategory}
