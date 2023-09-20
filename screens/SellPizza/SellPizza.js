@@ -22,16 +22,23 @@ export default function SellPizza() {
       }, [cart])
     );
 
-  async function finalizeOrder() {
-    const orderDate = new Date().toISOString();
-    try {
-        await saveOrder(orderDate, cart);
-        Alert.alert('Pedido salvo com sucesso!');
-        setCart([]); // clear the cart after saving
-    } catch (error) {
-        Alert.alert('Erro ao salvar o pedido.', error.toString());
+    async function finalizeOrder() {
+        const orderDate = new Date().toISOString();
+        // Verificar se o carrinho está vazio
+        if (cart.length === 0) {
+            Alert.alert('Atenção', 'Adicione ao menos uma pizza ao carrinho antes de finalizar o pedido.');
+            return;
+        }
+    
+        try {
+            await saveOrder(orderDate, cart);
+            Alert.alert('Pedido salvo com sucesso!');
+            setCart([]); // clear the cart after saving
+        } catch (error) {
+            Alert.alert('Erro ao salvar o pedido.', error.toString());
+        }
     }
-  }
+    
   
   
 
